@@ -1,16 +1,23 @@
 // src/controllers/apiController.ts
-
 import { RequestHandler } from 'express';
 import { registerApiService, getAllApisService } from '../services/apiService';
 
-
-
 export const registerApi: RequestHandler = async (req, res) => {
-    const { name, description, endpoint, pricePerCall, creatorWalletAddress } = req.body;
+    const { name, description, endpoint, pricePerCall } = req.body;
 
-    if (!name || !description || !endpoint || !pricePerCall || !creatorWalletAddress) {
-        res.status(400).json({ error: 'Todos os campos são obrigatórios' });
-        return; 
+    // --- LOGS DE DEPURAÇÃO ---
+    console.log('DEBUG: Conteúdo de req.user:', req.user);
+    // -------------------------
+
+    const creatorEmail = req.user?.sub; 
+
+    if (!name || !description || !endpoint || !pricePerCall) {
+        res.status(400).json({ error: 'Os campos name, description, endpoint e pricePerCall são obrigatórios.' });
+        return;
+    }
+    if (!creatorEmail) { 
+        res.status(401).json({ error: 'Não foi possível identificar o criador (email) a partir do token.' });
+        return;
     }
 
     try {
@@ -19,23 +26,21 @@ export const registerApi: RequestHandler = async (req, res) => {
             description,
             endpoint,
             pricePerCall,
-            creatorWalletAddress
+            creatorEmail 
         );
         res.status(201).json(newApi);
-    } catch (error) {
-        
-        console.error('Erro ao registrar API:', error);
-        res.status(500).json({ error: 'Falha ao registrar a API' });
+        return;
+    } catch (error: any) {
+        res.status(500).json({ error: 'Falha ao registrar a API', details: error.message });
+        return;
     }
 };
-
 
 export const getAllApis: RequestHandler = async (req, res) => {
     try {
         const apis = await getAllApisService();
         res.status(200).json(apis);
-    } catch (error) {
-        console.error('Erro ao buscar APIs:', error);
+    } catch (error: any) {
         res.status(500).json({ error: 'Falha ao buscar APIs' });
     }
 };

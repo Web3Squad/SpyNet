@@ -1,19 +1,11 @@
 import prisma from '../config/db';
 
-export const upsertUserByWallet = async (walletAddress: string) => {
-  return prisma.user.upsert({
-    where: { walletAddress },
-    update: {},
-    create: { walletAddress },
-  });
-};
-
 export const createApi = async (
   name: string,
   description: string,
   endpoint: string,
   pricePerCall: number,
-  creatorId: number
+  creatorId: number // ID do usuário do tipo Int
 ) => {
   return prisma.api.create({
     data: {
@@ -21,7 +13,7 @@ export const createApi = async (
       description,
       endpoint,
       pricePerCall,
-      creatorId: creatorId.toString(),
+      creatorId: creatorId, // Corrigido: creatorId é um Int
     },
   });
 };
@@ -30,7 +22,7 @@ export const findAllApis = async () => {
   return prisma.api.findMany({
     include: {
       Creator: {
-        select: { walletAddress: true },
+        select: { walletAddress: true, name: true }, // Inclui também o nome do criador
       },
     },
   });
