@@ -4,7 +4,6 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
-// A importação correta para um "export default"
 import apiRoutes from './routes/apiRoutes'; 
 
 import authRoutes from './routes/authRoutes';
@@ -12,7 +11,7 @@ import authRoutes from './routes/authRoutes';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3001;
 
 // Middlewares essenciais
 app.use(cors());

@@ -1,56 +1,41 @@
-import { Request, Response, NextFunction, RequestHandler } from 'express';
-import prisma from '../config/db';
+// src/controllers/apiController.ts
 
-// POST /api/register
-// Adicionamos o tipo "RequestHandler" para garantir a compatibilidade com o Express.
-export const registerApi: RequestHandler = async (req, res, next) => {
-  const { name, description, endpoint, pricePerCall, creatorWalletAddress } = req.body;
+import { RequestHandler } from 'express';
+import { registerApiService, getAllApisService } from '../services/apiService';
 
-  if (!name || !description || !endpoint || !pricePerCall || !creatorWalletAddress) {
-    // Não é necessário chamar 'next' aqui, pois a resposta já está sendo encerrada.
-    res.status(400).json({ error: 'Todos os campos são obrigatórios' });
-    return;
-  }
 
-  try {
-    const creator = await prisma.user.upsert({
-      where: { walletAddress: creatorWalletAddress },
-      update: {},
-      create: { walletAddress: creatorWalletAddress },
-    });
 
-    const newApi = await prisma.api.create({
-      data: {
-        name,
-        description,
-        endpoint,
-        pricePerCall,
-        creatorId: creator.id,
-      },
-    });
-    res.status(201).json(newApi);
-    return;
-  } catch (error) {
-    console.error(error);
-    // Em um cenário de erro, também encerramos a resposta.
-    res.status(500).json({ error: 'Falha ao registrar a API' });
-    return;
-  }
+export const registerApi: RequestHandler = async (req, res) => {
+    const { name, description, endpoint, pricePerCall, creatorWalletAddress } = req.body;
+
+    if (!name || !description || !endpoint || !pricePerCall || !creatorWalletAddress) {
+        res.status(400).json({ error: 'Todos os campos são obrigatórios' });
+        return; 
+    }
+
+    try {
+        const newApi = await registerApiService(
+            name,
+            description,
+            endpoint,
+            pricePerCall,
+            creatorWalletAddress
+        );
+        res.status(201).json(newApi);
+    } catch (error) {
+        
+        console.error('Erro ao registrar API:', error);
+        res.status(500).json({ error: 'Falha ao registrar a API' });
+    }
 };
 
-// GET /api/list
-// Também aplicamos o tipo "RequestHandler" aqui.
-export const getAllApis: RequestHandler = async (req, res, next) => {
-  try {
-    const apis = await prisma.api.findMany({
-      include: {
-        Creator: {
-          select: { walletAddress: true }, 
-        },
-      },
-    });
-    res.status(200).json(apis);
-  } catch (error) {
-    res.status(500).json({ error: 'Falha ao buscar as APIs' });
-  }
+
+export const getAllApis: RequestHandler = async (req, res) => {
+    try {
+        const apis = await getAllApisService();
+        res.status(200).json(apis);
+    } catch (error) {
+        console.error('Erro ao buscar APIs:', error);
+        res.status(500).json({ error: 'Falha ao buscar APIs' });
+    }
 };
