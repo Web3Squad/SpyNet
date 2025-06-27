@@ -1,0 +1,10 @@
+services:
+  auth:
+    build:
+      context: .
+      dockerfile: auth-dev.dockerfile
+    ports:
+      - "${AUTH_PORT:-8084}:8084"
+    env_file:
+      - .env
+    restart: unless-stopped

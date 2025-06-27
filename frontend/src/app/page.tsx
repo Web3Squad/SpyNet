@@ -2,6 +2,7 @@
 "use client";
 
 import { WalletConnect } from "@/components/features/wallet/WalletConnect";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function Home() {
@@ -10,10 +11,9 @@ export default function Home() {
       <div className="text-center">
         <h1 className="text-4xl font-bold mb-4">Bem-vindo ao SpyAgents</h1>
         <p className="text-xl mb-8">O marketplace de APIs descentralizado.</p>
-        <WalletConnect />
-        {/* <Link href="/apis" className="mt-4 inline-block text-blue-500 hover:underline">
-            Ver APIs Disponíveis
-        </Link> */}
+        <Button>
+          <Link href="/login">Entrar</Link>
+        </Button>
       </div>
     </main>
   );

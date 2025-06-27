@@ -10,9 +10,13 @@ datasource db {
 }
 
 model User {
-  id             String     @id @default(uuid()) @map("id")
-  walletAddress  String     @unique @map("wallet_address") @db.VarChar(255)
+  id             Int        @id @default(autoincrement()) @map("id")
+  name           String     @map("name") @db.VarChar(255)
+  walletAddress  String?    @unique(map: "users_address_key") @map("address") @db.VarChar(255)
+  email          String     @unique @map("email") @db.VarChar(255)
+  senha          String     @map("senha") @db.VarChar(255)
   createdAt      DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
+
   Apis           Api[]      @relation("CreatorApis")
   Contracts      Contract[] @relation("UserContracts")
 
@@ -21,11 +25,11 @@ model User {
 
 model Api {
   id             String     @id @default(uuid()) @map("id")
-  creatorId      String     @map("creator_id")
+  creatorId      Int        @map("creator_id")
   name           String     @map("name") @db.VarChar(255)
   description    String?    @map("description") @db.Text
   endpoint       String     @map("endpoint") @db.VarChar(255)
-  pricePerCall   Decimal    @map("price_per_call") @db.Decimal(38, 18) 
+  pricePerCall   Decimal    @map("price_per_call") @db.Decimal(38, 18)
   createdAt      DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
 
   Creator        User       @relation("CreatorApis", fields: [creatorId], references: [id])
@@ -37,7 +41,7 @@ model Api {
 model Contract {
   id             String     @id @default(uuid()) @map("id")
   apiId          String     @map("api_id")
-  userId         String     @map("user_id")
+  userId         Int        @map("user_id")
   callsPurchased Int        @map("calls_purchased")
   callsRemaining Int        @map("calls_remaining")
   paymentTxHash  String     @map("payment_tx_hash") @db.VarChar(255)
