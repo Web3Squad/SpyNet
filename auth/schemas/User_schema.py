@@ -1,4 +1,6 @@
 from pydantic import BaseModel, EmailStr
+from typing import Literal
+
 
 class UserCreate(BaseModel):
     name: str
