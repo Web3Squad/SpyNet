@@ -1,12 +1,16 @@
+// src/services/agentService.ts
 import { findUserByEmail } from '../repositories/userRepository';
-import {createAgent, findAllAgents, findAgentById, updateAgentById, deleteAgentById,} from '../repositories/agentReposity';
+import { createAgent, findAllAgents, findAgentById, updateAgentById, deleteAgentById} from '../repositories/agentReposity';
 
 export const registerAgentService = async (
   name: string,
   description: string,
   endpoint: string,
   pricePerCall: number,
-  creatorEmail: string
+  creatorEmail: string,
+  specialty: string,
+  useCases: string,
+  imageUrl?: string
 ) => {
   const creator = await findUserByEmail(creatorEmail);
 
@@ -14,7 +18,16 @@ export const registerAgentService = async (
     throw new Error('Usuário criador não encontrado.');
   }
 
-  return createAgent(name, description, endpoint, pricePerCall, creator.id);
+  return createAgent(
+    name,
+    description,
+    endpoint,
+    pricePerCall,
+    creator.id,
+    specialty,
+    useCases,
+    imageUrl
+  );
 };
 
 export const getAllAgentsService = () => findAllAgents();

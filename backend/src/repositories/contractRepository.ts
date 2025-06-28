@@ -4,14 +4,14 @@ const prisma = new PrismaClient();
 
 export const createContract = async (
   userId: number,
-  apiId: string,
+  agenteId: string,
   callsPurchased: number,
   paymentTxHash: string
 ) => {
   return prisma.contract.create({
     data: {
       userId,
-      apiId,
+      agenteId,
       callsPurchased,
       callsRemaining: callsPurchased,
       paymentTxHash,

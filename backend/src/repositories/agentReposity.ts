@@ -6,7 +6,10 @@ export const createAgent = async (
   description: string,
   endpoint: string,
   pricePerCall: number,
-  creatorId: number
+  creatorId: number,
+  specialty: string,
+  useCases: string,
+  imageUrl?: string
 ) => {
   return prisma.agent.create({
     data: {
@@ -15,6 +18,9 @@ export const createAgent = async (
       endpoint,
       pricePerCall,
       creatorId,
+      specialty,    
+      useCases,
+      imageUrl,
     },
   });
 };
