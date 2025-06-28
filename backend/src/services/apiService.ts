@@ -1,6 +1,6 @@
 // src/services/apiService.ts
 import { findUserByEmail } from '../repositories/userRepository';
-import { createApi, findAllApis } from '../repositories/apiReposity';
+import { createApi, findAllApis, findApiById, updateApiById, deleteApiById} from '../repositories/apiReposity';
 
 export const registerApiService = async (
   name: string,
@@ -22,4 +22,16 @@ export const registerApiService = async (
 
 export const getAllApisService = async () => {
   return findAllApis();
+};
+
+export const getApiByIdService = async (id: string) => {
+  return findApiById(id);
+};
+
+export const updateApiService = async (id: string, data: any) => {
+  return updateApiById(id, data);
+};
+
+export const deleteApiService = async (id: string) => {
+  return deleteApiById(id);
 };

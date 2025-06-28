@@ -27,3 +27,15 @@ export const findAllApis = async () => {
     },
   });
 };
+
+export const findApiById = async (id: string) => {
+  return prisma.api.findUnique({ where: { id } });
+};
+
+export const updateApiById = async (id: string, data: any) => {
+  return prisma.api.update({ where: { id }, data });
+};
+
+export const deleteApiById = async (id: string) => {
+  return prisma.api.delete({ where: { id } });
+};
