@@ -3,5 +3,9 @@ from pydantic import BaseModel, EmailStr
 class UserCreate(BaseModel):
     name: str
     address: str
-    senha: str
     email: EmailStr
+    password: str
+    enterprise: str
+    sector: str
+    telephone: str
+    role: str

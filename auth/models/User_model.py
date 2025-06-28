@@ -13,14 +13,18 @@ class User(Base):
     name = mapped_column(String(255), nullable=False)
     address = mapped_column(String(255), nullable=True)
     email = mapped_column(String(255), unique=True, nullable=False)
-    senha = mapped_column(String(255), nullable=False)
-    created_at = mapped_column(TIMESTAMP, server_default='NOW()')
+    password = mapped_column(String(255), nullable=False)
+    enterprise = mapped_column(String(255), nullable=False)
+    sector = mapped_column(String(255), nullable=False)
+    telephone = mapped_column(String(255), nullable=False)
+    role = mapped_column(String(255), nullable=False)
+    createdAt = mapped_column("created_at", TIMESTAMP(timezone=True), server_default='NOW()')
 
     def __init__(self, **kwargs):
-        if 'senha' in kwargs:
-            senha_plana = kwargs.pop('senha')
-            self.senha = pwd_context.hash(senha_plana)
+        if 'password' in kwargs:
+            password_plain = kwargs.pop('password')
+            self.password = pwd_context.hash(password_plain)
         super().__init__(**kwargs)
 
-    def verify_password(self, senha_plana):
-        return pwd_context.verify(senha_plana, self.senha)
+    def verify_password(self, password_plain):
+        return pwd_context.verify(password_plain, self.password)
