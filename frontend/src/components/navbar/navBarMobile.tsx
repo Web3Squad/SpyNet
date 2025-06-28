@@ -24,12 +24,6 @@ export function MobileNav({ isOpen, token, user, logout, onClose }: MobileNavPro
           <Link href="/marketplace" className="text-white hover:text-primary transition-colors font-medium py-2" onClick={onClose}>
             Marketplace
           </Link>
-          <Link href="/empresas" className="text-white hover:text-primary transition-colors font-medium py-2" onClick={onClose}>
-            Companies
-          </Link>
-          <Link href="/criadores" className="text-white hover:text-primary transition-colors font-medium py-2" onClick={onClose}>
-            Creators
-          </Link>
         </div>
 
         {/* Botão de Ação Mobile */}
@@ -48,16 +42,28 @@ export function MobileNav({ isOpen, token, user, logout, onClose }: MobileNavPro
               </Button>
             </div>
           ) : (
-            <Button
-              asChild
-              className="rounded-full bg-primary hover:bg-primary/90 w-full"
-              onClick={onClose}
-            >
-              <Link href="/login" className="flex items-center justify-center gap-2">
-                <UserCircle className="h-5 w-5" />
-                <span>Sign In</span>
-              </Link>
-            </Button>
+            <div className="space-y-2">
+              <Button
+                asChild
+                className="rounded-full bg-primary hover:bg-primary/90 w-full"
+                onClick={onClose}
+              >
+                <Link href="/login" className="flex items-center justify-center gap-2">
+                  <UserCircle className="h-5 w-5" />
+                  <span>Sign In</span>
+                </Link>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="rounded-full w-full"
+                onClick={onClose}
+              >
+                <Link href="/signup" className="flex items-center justify-center gap-2">
+                  <span>Sign Up</span>
+                </Link>
+              </Button>
+            </div>
           )}
         </div>
       </div>

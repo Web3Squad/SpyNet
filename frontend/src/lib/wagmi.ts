@@ -1,7 +1,7 @@
-// src/lib/wagmi.ts
 import { http, createConfig } from 'wagmi';
 import { polygonMumbai } from 'wagmi/chains';
-import { walletConnect, injected } from 'wagmi/connectors'; 
+// ATUALIZADO: Importar conectores específicos
+import { walletConnect, injected, metaMask, coinbaseWallet } from 'wagmi/connectors'; 
 
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
 if (!projectId) {
@@ -18,9 +18,12 @@ const metadata = {
 export const config = createConfig({
   chains: [polygonMumbai],
   
+  // ATUALIZADO: Adicionados conectores específicos na lista
   connectors: [
+    metaMask(),
+    coinbaseWallet({ appName: metadata.name }),
     walletConnect({ projectId, metadata, showQrModal: true }),
-    injected(), 
+    injected(), // Mantenha o injected como um fallback
   ],
   transports: {
     [polygonMumbai.id]: http('https://rpc-mumbai.maticvigil.com/'),

@@ -1,33 +1,24 @@
-// src/app/login/page.tsx
 "use client";
 
 import React, { useState, useEffect, Suspense } from "react";
 import Link from 'next/link';
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/providers/AuthProvider";
-import { useAccount } from "wagmi";
-import { WalletConnect } from "@/components/features/wallet/WalletConnect";
+import { ConnectWalletButton } from "@/components/features/wallet/ConnectWalletButton";
 
 function LoginForm() {
   const { login, isLoading } = useAuth();
-  const { isConnected, address } = useAccount();
   const searchParams = useSearchParams();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-
-  // useEffect para verificar o parâmetro 'registered' na URL.
+  
   useEffect(() => {
     if (searchParams.get('registered') === 'true') {
-      setShowSuccessMessage(true);
-      // Opcional: esconde a mensagem após 5 segundos.
-      const timer = setTimeout(() => setShowSuccessMessage(false), 5000);
-      return () => clearTimeout(timer);
+      console.log("Newly registered user!");
     }
   }, [searchParams]);
 
@@ -37,72 +28,80 @@ function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Card className="w-[400px]">
-        <CardHeader>
-          <CardTitle>Login</CardTitle>
-          <CardDescription>Acesse sua conta para continuar.</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {/* Mensagem de sucesso de cadastro */}
-          {showSuccessMessage && (
-            <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-md text-center">
-              Cadastro realizado com sucesso! Por favor, faça o login.
-            </div>
-          )}
+    <div className="flex flex-col justify-center h-full w-full max-w-md mx-auto">
+      {/* Header */}
+      <div className="mb-10">
+        <h1 className="text-5xl font-bold text-white">Login</h1>
+        <p className="text-lg text-muted-foreground mt-4">Find, Create and Monetize AI Agents</p>
+      </div>
 
-          {/* Seção de Conexão da Carteira Integrada */}
-          <div className="p-4 border rounded-md">
-            {isConnected ? (
-              <div>
-                <Label>Carteira Conectada</Label>
-                <p className="text-sm font-medium text-green-600 truncate">
-                  Você já está conectado como: {address}
-                </p>
-              </div>
-            ) : (
-              <div>
-                <Label>Conectar Carteira (Opcional)</Label>
-                <div className="mt-2">
-                  <WalletConnect />
-                </div>
-              </div>
-            )}
-          </div>
+      <form onSubmit={handleSubmit} className="space-y-8">
+        {/* Email Field */}
+        <div className="space-y-3">
+          <Label htmlFor="email" className="text-base text-white">Email</Label>
+          <Input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="!bg-[#1E1E1E] border-zinc-700 h-14 rounded-lg text-white text-base"
+          />
+        </div>
 
-          {/* Campos de Login Tradicional */}
-          <div className="space-y-1">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="seu@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          </div>
-          <div className="space-y-1">
-            <Label htmlFor="password">Senha</Label>
-            <Input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-          </div>
-        </CardContent>
-        <CardFooter className="flex flex-col">
-          <Button className="w-full" disabled={isLoading}>
-            {isLoading ? 'Entrando...' : 'Entrar'}
-          </Button>
-          <p className="mt-4 text-center text-sm text-gray-600">
-            Não tem uma conta?{' '}
-            <Link href="/register" className="font-semibold text-blue-600 hover:underline">
-              Cadastre-se
+        {/* Password Field */}
+        <div className="space-y-3">
+          <Label htmlFor="password" className="text-base text-white">Password</Label>
+          <Input
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="!bg-[#1E1E1E] border-zinc-700 h-14 rounded-lg text-white text-base"
+          />
+        </div>
+
+        <div className="text-right">
+            <Link href="/forgot-password" className="text-md text-muted-foreground hover:text-white transition-colors">
+                Forgot Password
             </Link>
-          </p>
-        </CardFooter>
-      </Card>
-    </form>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-col gap-4 pt-6 items-center justify-center">
+          <Button type="submit" className="w-75 h-14 text-lg font-semibold rounded-[20px] " disabled={isLoading}>
+            {isLoading ? 'Signing in...' : 'Sign In'}
+          </Button>
+
+          <Button variant="outline" asChild className="w-75 h-14 text-lg font-semibold !border-primary text-white hover:bg-primary/10 hover:text-primary rounded-[20px]">
+            <Link href="/register">
+              Register
+            </Link>
+          </Button>
+          <ConnectWalletButton></ConnectWalletButton>
+        </div>
+      </form>
+    </div>
   );
 }
 
-
 export default function LoginPage() {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-      <Suspense fallback={<div>Carregando...</div>}>
-        <LoginForm />
-      </Suspense>
+    <div className="flex items-center justify-center min-h-screen bg-background p-4">
+      <div className="grid w-full max-w-6xl grid-cols-1 lg:grid-cols-2 lg:gap-24 items-center">
+        
+        <div className="hidden lg:flex justify-center items-center">
+          <div className="w-full h-[600px] bg-[#C4C4C4] rounded-2xl"></div>
+        </div>
+        
+        <div className="flex justify-center">
+            <Suspense fallback={<div className="text-white">Loading...</div>}>
+                <LoginForm />
+            </Suspense>
+        </div>
+
+      </div>
     </div>
   );
 }

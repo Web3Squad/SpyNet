@@ -14,20 +14,14 @@ export function DesktopNav({ token, user, logout }: DesktopNavProps) {
     <div className="hidden md:flex items-center gap-8">
       {/* Links de Navegação */}
       <div className="flex items-center gap-8">
-        <Link href="/marketplace" className="text-white hover:text-primary transition-colors font-medium">
+        <Link href="/marketplace" className="text-white hover:text-primary transition-colors font-medium text-[20px]">
           Marketplace
-        </Link>
-        <Link href="/empresas" className="text-white hover:text-primary transition-colors font-medium">
-          Companies
-        </Link>
-        <Link href="/criadores" className="text-white hover:text-primary transition-colors font-medium">
-          Creators
         </Link>
       </div>
 
       {/* Botão de Ação */}
       {token && user ? (
-        <div className="flex items-center gap-3 rounded-full border border-primary/80 px-4 py-2 text-sm">
+        <div className="flex items-center gap-3 rounded-full border border-primary/80 px-4 py-2 text-[20px]">
           <span className="font-medium text-white">Hello, {user.name}!</span>
           <div className="h-4 w-px bg-white/30" />
           <button
@@ -38,12 +32,26 @@ export function DesktopNav({ token, user, logout }: DesktopNavProps) {
           </button>
         </div>
       ) : (
-        <Button asChild className="rounded-full bg-primary hover:bg-primary/90 px-6 py-2">
-          <Link href="/login" className="flex items-center gap-2">
-            <UserCircle className="h-5 w-5" />
-            <span>Sign In</span>
-          </Link>
-        </Button>
+        <div className="flex items-center gap-3">
+          <Button
+            asChild
+            className="rounded-full border border-white bg-primary hover:bg-primary/90 px-6 py-2 text-[20px]"
+          >
+            <Link href="/login" className="flex items-center gap-2">
+              <UserCircle className="h-5 w-5" />
+              <span>Sign In</span>
+            </Link>
+          </Button>
+          <Button
+            asChild
+            variant="outline"
+            className="rounded-full border border-white text-white hover:bg-white/10 px-6 py-2 text-[20px]"
+          >
+            <Link href="/register">
+              Sign Up
+            </Link>
+          </Button>
+        </div>
       )}
     </div>
   );
