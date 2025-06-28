@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import apiRoutes from './routes/apiRoutes';
+import contractRoutes from './routes/contractRoutes'
 
 dotenv.config();
 
@@ -16,6 +17,8 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/api', apiRoutes);
+
+app.use('/contracts', contractRoutes);
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
