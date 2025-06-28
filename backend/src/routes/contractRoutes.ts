@@ -4,7 +4,7 @@ import { authMiddleware } from '../middleware/authMiddleware';
 
 const router = express.Router();
 
-router.post('/contracts', authMiddleware, postContract);
+router.post('/register', authMiddleware, postContract);
 router.get('/list', authMiddleware, getContracts);
 
 export default router;

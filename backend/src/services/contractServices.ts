@@ -3,11 +3,11 @@ import { createContract, getUserContracts } from '../repositories/contractReposi
 
 export const criarContrato = async (
   userId: number,
-  agenteId: string,
+  agentId: string,
   callsPurchased: number,
   paymentTxHash: string
 ) => {
-  return createContract(userId, agenteId, callsPurchased, paymentTxHash);
+  return createContract(userId, agentId, callsPurchased, paymentTxHash);
 };
 
 export const listarContratosDoUsuario = async (userId: number) => {
