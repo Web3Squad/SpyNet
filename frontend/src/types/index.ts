@@ -18,7 +18,7 @@ export interface User {
 // Tipo para as credenciais enviadas no login.
 export interface LoginCredentials {
   email: string;
-  senha: any;
+  password: any;
 }
 
 // Tipo para os dados enviados no registro.

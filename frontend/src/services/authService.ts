@@ -11,7 +11,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8
 export const loginUser = async (credentials: LoginCredentials): Promise<any> => {
   const formBody = new URLSearchParams();
   formBody.append('username', credentials.email);
-  formBody.append('password', credentials.senha);
+  formBody.append('password', credentials.password);
 
   const response = await fetch(`${API_BASE_URL}/token`, {
     method: 'POST',
