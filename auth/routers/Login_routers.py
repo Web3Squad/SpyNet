@@ -22,19 +22,22 @@ async def registrar_usuario(
     user_data: UserCreate, 
     db: Session = Depends(get_db)
 ):
-    """Registra um novo usuário no sistema"""
+    if user_data.role not in ["Creator", "Enterprise"]:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Role inválida. Use apenas 'Creator' ou 'Enterprise'."
+        )
     existing_user = db.query(User).filter(User.email == user_data.email).first()
     if existing_user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Email já cadastrado"
         )
-    hashed_password = pwd_context.hash(user_data.password)
     new_user = User(
         name=user_data.name,
         address=user_data.address,
         email=user_data.email,
-        password=hashed_password,
+        password=user_data.password, 
         enterprise=user_data.enterprise,
         sector=user_data.sector,
         telephone=user_data.telephone,

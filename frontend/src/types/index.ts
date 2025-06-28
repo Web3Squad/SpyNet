@@ -18,11 +18,15 @@ export interface User {
 // Tipo para as credenciais enviadas no login.
 export interface LoginCredentials {
   email: string;
-  senha: any;
+  password: any;
 }
 
 // Tipo para os dados enviados no registro.
 export interface RegistrationData extends LoginCredentials {
   name: string;
   address: string;
+  role: 'creator' | 'company';
+  company: string; 
+  sector: string; 
+  phone: string; 
 }

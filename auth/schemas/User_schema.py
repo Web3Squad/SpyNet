@@ -8,4 +8,4 @@ class UserCreate(BaseModel):
     enterprise: str
     sector: str
     telephone: str
-    role: str
+    role: Literal["Creator", "Enterprise"]
