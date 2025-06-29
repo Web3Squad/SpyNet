@@ -3,6 +3,7 @@ import { RequestHandler } from 'express';
 import { registerAgentService, getAllAgentsService, getAgentByIdService, updateAgentService, deleteAgentService} from '../services/agentService';
 import { Request, Response } from 'express';
 import { uploadImageToSupabase } from '../services/uploadService';
+import { findBestAgentWithAI } from '../services/aiService';
 
 export const registerAgent: RequestHandler = async (req, res) => {
   const {
@@ -131,5 +132,41 @@ export const postAgent = async (req: Request, res: Response) => {
       error: 'Erro ao registrar o agente.',
       details: error.message,
     });
+  }
+};
+
+export const findBestAgent: RequestHandler = async (req, res) => {
+  const { query } = req.body;
+
+  if (!query) {
+    res.status(400).json({ error: 'A propriedade "query" é obrigatória.' });
+    return;
+  }
+
+  try {
+    const allAgents = await getAllAgentsService();
+
+    const aiSuggestion = await findBestAgentWithAI(allAgents as any[], query);
+
+    const recommendedAgent = allAgents.find(agent => agent.id === aiSuggestion.bestAgentId);
+
+    if (!recommendedAgent) {
+      res.status(404).json({ error: 'O agente recomendado pela IA não foi encontrado na lista.' });
+      return;
+    }
+
+    res.status(200).json({
+      recommendedAgent,
+      reasoning: aiSuggestion.reasoning,
+      confidence: aiSuggestion.confidenceScore,
+    });
+    return;
+
+  } catch (error: any) {
+    res.status(500).json({
+      error: 'Erro ao processar a busca inteligente.',
+      details: error.message
+    });
+    return;
   }
 };

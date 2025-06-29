@@ -3,10 +3,13 @@ import { registerAgent, getAllAgents, getAgentById, updateAgent, deleteAgent} fr
 import { authMiddleware } from '../middleware/authMiddleware';
 import multer from 'multer';
 import { postAgent } from '../controllers/agentController';
+import { findBestAgent } from '../controllers/agentController';
 
 const upload = multer(); // usando memória (não salva em disco)
 
 const router = Router();
+
+router.post('/find-best', findBestAgent);
 
 //router.post('/register', authMiddleware, registerAgent);
 router.get('/list', getAllAgents);

@@ -69,3 +69,24 @@ export type ContractWithDetails = {
     key: string;
   } | null;
 };
+
+export type AISearchResult = {
+  recommendedAgent: Agent;
+  reasoning: string;
+  confidence: number;
+};
+
+export interface AgentAI {
+    id: string;
+    name: string;
+    description: string;
+    imageUrl: string;
+}
+
+export interface SearchResult {
+    id: string;
+    name: string;
+    description: string;
+    imageUrl: string;
+    score: number;
+}
