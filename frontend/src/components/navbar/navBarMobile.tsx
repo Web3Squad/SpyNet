@@ -17,35 +17,46 @@ export function MobileNav({ isOpen, token, user, logout, onClose }: MobileNavPro
   }
 
   return (
-    <div className="md:hidden bg-background border-b border-border/10">
-      <div className="container mx-auto px-4 py-4 space-y-4">
+    <div className="md:hidden bg-background border-t border-border/10 animate-in fade-in-20 slide-in-from-top-4">
+      <div className="container mx-auto px-4 py-6 space-y-6">
         {/* Links de Navegação Mobile */}
         <div className="flex flex-col space-y-4">
-          <Link href="/marketplace" className="text-white hover:text-primary transition-colors font-medium py-2" onClick={onClose}>
-            Marketplace
-          </Link>
+          {token && user ? (
+            <>
+              <Link href="/dashboard" className="text-white hover:text-primary transition-colors font-medium py-2 text-lg" onClick={onClose}>
+                Controle
+              </Link>
+              <Link href="/perfil" className="text-white hover:text-primary transition-colors font-medium py-2 text-lg" onClick={onClose}>
+                Perfil
+              </Link>
+            </>
+          ) : (
+            <Link href="/marketplace" className="text-white hover:text-primary transition-colors font-medium py-2 text-lg" onClick={onClose}>
+              Marketplace
+            </Link>
+          )}
         </div>
 
         {/* Botão de Ação Mobile */}
-        <div className="pt-4 border-t border-border/10">
+        <div className="pt-6 border-t border-border/10">
           {token && user ? (
-            <div className="space-y-3 text-center">
-              <span className="text-sm font-medium text-white block">Hello, {user.name}!</span>
+            <div className="space-y-4 text-center">
+              <span className="text-md font-medium text-white block">Olá, {user.name}!</span>
               <Button
                 onClick={() => {
                   logout();
                   onClose();
                 }}
-                className="rounded-full bg-primary hover:bg-primary/90 w-full"
+                className="rounded-full bg-zinc-800 hover:bg-zinc-700 w-full text-lg py-6"
               >
-                Logout
+                Sair
               </Button>
             </div>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-3">
               <Button
                 asChild
-                className="rounded-full bg-primary hover:bg-primary/90 w-full"
+                className="rounded-full bg-primary hover:bg-primary/90 w-full text-lg py-6"
                 onClick={onClose}
               >
                 <Link href="/login" className="flex items-center justify-center gap-2">
@@ -56,10 +67,10 @@ export function MobileNav({ isOpen, token, user, logout, onClose }: MobileNavPro
               <Button
                 asChild
                 variant="outline"
-                className="rounded-full w-full"
+                className="rounded-full w-full text-lg py-6"
                 onClick={onClose}
               >
-                <Link href="/signup" className="flex items-center justify-center gap-2">
+                <Link href="/register" className="flex items-center justify-center gap-2">
                   <span>Sign Up</span>
                 </Link>
               </Button>

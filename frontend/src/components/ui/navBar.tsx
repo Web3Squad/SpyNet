@@ -5,8 +5,8 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/providers/AuthProvider";
 import { useState } from "react";
-import { DesktopNav } from "../../components/navbar/navBarDesktop"; // Importa o componente Desktop
-import { MobileNav } from "../../components/navbar/navBarMobile";   // Importa o componente Mobile
+import { DesktopNav } from "../../components/navbar/navBarDesktop"; 
+import { MobileNav } from "../../components/navbar/navBarMobile";   
 
 export function Navbar() {
   const { token, user, logout } = useAuth();

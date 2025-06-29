@@ -13,6 +13,7 @@ export interface User {
   user_id: number;
   name: string;
   email: string;
+  role: 'Creator' | 'Enterprise' | string;
 }
 
 // Tipo para as credenciais enviadas no login.
@@ -25,8 +26,27 @@ export interface LoginCredentials {
 export interface RegistrationData extends LoginCredentials {
   name: string;
   address: string;
-  role: 'creator' | 'company';
-  company: string; 
+  role: 'Creator' | 'Enterprise';
+  enterprise: string; 
   sector: string; 
-  phone: string; 
+  telephone: string; 
 }
+
+// Este tipo corresponde exatamente à estrutura do JSON que seu backend retorna
+export type Agent = {
+  id: string;
+  name: string;
+  description: string;
+  endpoint: string;
+  pricePerCall: string;
+  createdAt: string;
+  creatorId: number;
+  imageUrl: string | null;
+  specialty: string;
+  useCases: string; // No seu JSON, 'useCases' é uma string única
+  creator: {
+    name: string;
+    email: string;
+    walletAddress: string;
+  };
+};

@@ -15,77 +15,84 @@ import { useAuth } from "@/providers/AuthProvider";
 import { useAccount } from "wagmi";
 import { Rocket } from "lucide-react";
 
-// UPDATED: Type for form data with new fields
+// Tipo para os dados do formulário
 type FormData = {
   name: string;
   email: string;
   phone: string;
   companyName: string;
-  sector: string; // New field "Sector"
+  sector: string;
   password: string;
-  role: 'creator' | 'company';
+  role: 'creator' | 'enterprise';
 };
 
-// Main component of the page
 export default function RegisterPage() {
   const router = useRouter();
   const { register, isLoading } = useAuth();
   const { address, isConnected } = useAccount();
 
   const [step, setStep] = useState(1);
-
-  // UPDATED: Initial state with new fields
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     phone: '',
     companyName: '',
-    sector: '', // New field "Sector"
+    sector: '',
     password: '',
     role: 'creator',
   });
+
+  const [finalFormData, setFinalFormData] = useState<FormData | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData(prev => ({ ...prev, [id]: value }));
   };
-  
+
   const handleContinue = (e: React.FormEvent) => {
     e.preventDefault();
+    setFinalFormData(formData);
     setStep(2);
   };
 
   useEffect(() => {
-    if (step === 2 && isConnected && address) {
-      console.log("Wallet connected, registering user with data:", formData);
-      // ATTENTION: Remember to send the new fields to your register function
+    if (step === 2 && isConnected && address && finalFormData && !isSubmitting) {
+      setIsSubmitting(true);
+      console.log("Iniciando registro (execução única) com os dados:", finalFormData);
       register({
-        name: formData.name,
-        email: formData.email,
-        senha: formData.password,
+        name: finalFormData.name,
+        email: finalFormData.email,
         address: address,
-        role: formData.role,
-        company: formData.companyName,
-        sector: formData.sector,
-        phone: formData.phone,
+        role: finalFormData.role === 'enterprise' ? 'Enterprise' : 'Creator',
+        sector: finalFormData.sector,
+        password: finalFormData.password,
+        enterprise: finalFormData.companyName,
+        telephone: finalFormData.phone,
       });
-      // router.push('/login?registered=true');
     }
-  }, [step, isConnected, address, register, formData, router]);
+  }, [step, isConnected, address, finalFormData, isSubmitting, register, router]);
 
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-background p-4">
-      <div className="grid w-full max-w-6xl grid-cols-1 lg:grid-cols-2 lg:gap-24 items-stretch">
-        {/* Left Column (Image) */}
-        <div className="hidden lg:flex justify-center items-stretch">
-          <div className="w-full h-[700px] bg-[#C4C4C4] rounded-2xl"></div>
+    <div className="flex justify-center min-h-screen bg-background p-4 py-16">
+      <div className="grid w-full max-w-6xl grid-cols-1 lg:grid-cols-2 lg:gap-24 items-start">
+      
+      {/* Coluna da Imagem (Esquerda) */}
+      <div className="hidden lg:flex justify-center items-start">
+        <div className="w-full h-full rounded-2xl flex animate-pulse">
+        <img
+          src="/img/mao.jpeg"
+          alt="Register Illustration"
+          className="w-full h-full object-cover rounded-2xl"
+          style={{ maxHeight: "700px", height: "100%" }}
+        />
         </div>
+      </div>
 
-        {/* Right Column (Dynamic Content) */}
+        {/* Coluna do Formulário (Direita) */}
         <div className="flex justify-center items-stretch">
           {step === 1 ? (
-            
             <div className="w-full max-w-md flex flex-col justify-center h-full">
               <div className="mb-10 text-left">
                 <h1 className="text-5xl font-bold text-white">Register</h1>
@@ -93,21 +100,17 @@ export default function RegisterPage() {
                   Share your innovation with the world and monetize your skills.
                 </p>
               </div>
-
               <form onSubmit={handleContinue} className="space-y-6">
-                {/* UPDATED: Tabs for profile selection with active style */}
-                <Tabs value={formData.role} onValueChange={(value) => setFormData(p => ({ ...p, role: value as 'creator' | 'company' }))}>
+                <Tabs value={formData.role} onValueChange={(value) => setFormData(p => ({ ...p, role: value as 'creator' | 'enterprise' }))}>
                   <TabsList className="grid w-full grid-cols-2 bg-zinc-800 h-12 rounded-full inline-flex">
                     <TabsTrigger value="creator" className="text-base data-[state=active]:!bg-primary data-[state=active]:text-primary-foreground rounded-full">
                       Creator
                     </TabsTrigger>
-                    <TabsTrigger value="company" className="text-base data-[state=active]:!bg-primary data-[state=active]:text-primary-foreground rounded-full">
+                    <TabsTrigger value="enterprise" className="text-base data-[state=active]:!bg-primary data-[state=active]:text-primary-foreground rounded-full">
                       Company
                     </TabsTrigger>
                   </TabsList>
                 </Tabs>
-                
-                {/* UPDATED: Fixed list of inputs */}
                 <div className="space-y-6">
                   <div>
                     <Label htmlFor="name" className="text-white">Name</Label>
@@ -134,7 +137,6 @@ export default function RegisterPage() {
                     <Input id="password" type="password" value={formData.password} onChange={handleInputChange} required className="!bg-[#1E1E1E] border-zinc-700 mt-2 h-14 rounded-[20px]" />
                   </div>
                 </div>
-                
                 <div className="pt-6 flex items-center justify-center">
                   <Button type="submit" variant="outline" className="w-75 h-14 text-lg !border-primary text-white hover:bg-primary/10 hover:text-primary rounded-[20px] flex items-center justify-center">
                     <Rocket className="mr-2 h-5 w-5" />
@@ -144,8 +146,9 @@ export default function RegisterPage() {
               </form>
             </div>
           ) : (
-            
-            <WalletConnectModal onClose={() => setStep(1)} />
+            <div className="w-full max-w-md flex flex-col justify-center h-full">
+              <WalletConnectModal />
+            </div>
           )}
         </div>
       </div>

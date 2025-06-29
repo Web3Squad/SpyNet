@@ -13,28 +13,36 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="space-y-6">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+            <h1 className="text-4xl md:text-9xl lg:text-8xl font-bold text-white leading-tight">
               Find Or Monetize Agents
             </h1>
-            <p className="text-lg md:text-xl text-gray-300 leading-relaxed">
+            <p className="text-lg md:text-3xl text-gray-300 leading-relaxed">
               We Connect Specialized Agents To Companies That Need Fast And Secure Solutions
             </p>
             <Button
               className="bg-primary hover:bg-primary/90 text-white px-8 py-3 text-lg border-2 border-primary/80 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
               asChild
             >
-              <Link href="/saiba-mais" className="flex items-center gap-2">
+              <Link href="/saiba-mais" className="flex items-center gap-2 w-80 h-15">
                 <Zap className="h-5 w-5" />
                 Learn More
               </Link>
             </Button>
           </div>
 
-          {/* Right Content */}
+          {/* Right Content (MODIFICADO) */}
           <div className="flex justify-center lg:justify-end">
-            <Card className="w-full max-w-md bg-[#3B3B3B] border-gray-700">
+            {/* 1. Alterado para w-[500px] para definir um tamanho fixo */}
+            <Card className="w-[500px] bg-[#3B3B3B] border-gray-700 overflow-hidden rounded-lg">
               <CardContent className="p-0">
-                <div className="aspect-video bg-[#C4C4C4] rounded-t-lg"></div>
+                {/* 2. Alterado para aspect-square para a imagem ficar 1:1 (quadrada) */}
+                <div className="relative aspect-square">
+                  <img
+                    src="/img/home/home_image.png"
+                    alt="AI Agent"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                </div>
                 <div className="p-6 space-y-2">
                   <h3 className="text-xl font-semibold text-white">A Universe Of Agents</h3>
                   <p className="text-gray-400">Find, Create and Monetize AI Agents</p>
@@ -55,9 +63,15 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Legal Agent */}
-            <Card className="bg-card border-border hover:border-primary/50 transition-colors">
+            <Card className="bg-card border-border hover:border-primary/50 transition-colors overflow-hidden rounded-lg">
               <CardContent className="p-0">
-                <div className="aspect-square bg-[#C4C4C4] rounded-t-lg"></div>
+                <div className="relative aspect-square">
+                  <img
+                    src="/img/home/cao.png"
+                    alt="Legal Agent"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                </div>
                 <div className="p-6 space-y-3">
                   <h3 className="text-xl font-semibold text-white">Legal Agent</h3>
                   <div className="flex items-center gap-2">
@@ -69,9 +83,15 @@ export default function Home() {
             </Card>
 
             {/* Marketing Agent */}
-            <Card className="bg-card border-border hover:border-primary/50 transition-colors">
+            <Card className="bg-card border-border hover:border-primary/50 transition-colors overflow-hidden rounded-lg">
               <CardContent className="p-0">
-                <div className="aspect-square bg-[#C4C4C4] rounded-t-lg"></div>
+                <div className="relative aspect-square">
+                  <img
+                    src="/img/home/cogumelo.png"
+                    alt="Marketing Agent"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                </div>
                 <div className="p-6 space-y-3">
                   <h3 className="text-xl font-semibold text-white">Marketing Agent</h3>
                   <div className="flex items-center gap-2">
@@ -83,9 +103,15 @@ export default function Home() {
             </Card>
 
             {/* Developer Agent */}
-            <Card className="bg-card border-border hover:border-primary/50 transition-colors">
+            <Card className="bg-card border-border hover:border-primary/50 transition-colors overflow-hidden rounded-lg">
               <CardContent className="p-0">
-                <div className="aspect-square bg-[#C4C4C4] rounded-t-lg"></div>
+                <div className="relative aspect-square">
+                  <img
+                    src="/img/home/robozao.png"
+                    alt="Developer Agent"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                </div>
                 <div className="p-6 space-y-3">
                   <h3 className="text-xl font-semibold text-white">Developer Agent</h3>
                   <div className="flex items-center gap-2">
@@ -125,9 +151,14 @@ export default function Home() {
 
           <div className="bg-[#1E1E1E] rounded-2xl p-8 md:p-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              {/* Left Image */}
               <div className="flex justify-center lg:justify-start">
-                <div className="w-full max-w-md aspect-square bg-[#C4C4C4] rounded-2xl"></div>
+                <div className="relative w-full max-w-md aspect-square rounded-2xl overflow-hidden">
+                  <img
+                    src="/img/home/astronauta.png"
+                    alt="Rocket Image"
+                    className="absolute inset-0 w-full h-full object-cover hidden lg:block"
+                  />
+                </div>
               </div>
 
               {/* Right Content */}
