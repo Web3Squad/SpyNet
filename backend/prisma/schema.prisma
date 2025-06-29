@@ -1,5 +1,3 @@
-// prisma/schema.prisma
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,51 +8,48 @@ datasource db {
 }
 
 model User {
-  id             Int        @id @default(autoincrement()) @map("id")
-  name           String     @map("name") @db.VarChar(255)
-  walletAddress  String?    @unique(map: "users_address_key") @map("address") @db.VarChar(255)
-  email          String     @unique @map("email") @db.VarChar(255)
-  password       String     @map("password") @db.VarChar(255)
-  enterprise     String     @map("enterprise") @db.VarChar(255)
-  sector         String     @map("sector") @db.VarChar(255)
-  telephone      String     @map("telephone") @db.VarChar(255)
-  role           String     @map("role") @db.VarChar(255)
-  createdAt      DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
+  createdAt     DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
+  walletAddress String?    @unique @map("address") @db.VarChar(255)
+  email         String     @unique @map("email") @db.VarChar(255)
+  name          String     @map("name") @db.VarChar(255)
+  id            Int        @id @default(autoincrement()) @map("id")
+  enterprise    String     @map("enterprise") @db.VarChar(255)
+  password      String     @map("password") @db.VarChar(255)
+  role          String     @map("role") @db.VarChar(255)
+  sector        String     @map("sector") @db.VarChar(255)
+  telephone     String     @map("telephone") @db.VarChar(255)
+  agents        Agent[]    @relation("UserToAgents")
+  Contracts     Contract[] @relation("UserContracts")
 
-  agents         Agent[]    @relation("UserToAgents")   
-  Contracts      Contract[] @relation("UserContracts")
-
-  @@map("users") 
+  @@map("users")
 }
 
 model Agent {
-  id             String     @id @default(uuid()) @map("id")
-  creatorId      Int        @map("creator_id")
-  name           String     @map("name") @db.VarChar(255)
-  description    String?    @map("description") @db.Text
-  specialty      String     @map("specialty") @db.Text
-  useCases       String     @map("useCases") @db.Text
-  endpoint       String     @map("endpoint") @db.Text
-  imageUrl       String?    @map("imageUrl") @db.Text
-  pricePerCall   Decimal    @map("price_per_call") @db.Decimal(38, 18)
-  createdAt      DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
-
-  creator        User       @relation("UserToAgents", fields: [creatorId], references: [id]) 
-  Contracts      Contract[] @relation("ApiContracts")
+  id           String     @id @default(uuid()) @map("id")
+  name         String     @map("name") @db.VarChar(255)
+  description  String?    @map("description")
+  endpoint     String     @map("endpoint")
+  pricePerCall Decimal    @map("price_per_call") @db.Decimal(38, 18)
+  createdAt    DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
+  creatorId    Int        @map("creator_id")
+  imageUrl     String?    @map("imageUrl")
+  specialty    String     @map("specialty")
+  useCases     String     @map("useCases")
+  creator      User       @relation("UserToAgents", fields: [creatorId], references: [id])
+  Contracts    Contract[] @relation("ApiContracts")
 
   @@map("apis")
 }
 
 model Contract {
   id             String     @id @default(uuid()) @map("id")
-  agentId          String     @map("agent_id")
-  userId         Int        @map("user_id")
   callsPurchased Int        @map("calls_purchased")
   callsRemaining Int        @map("calls_remaining")
   paymentTxHash  String     @map("payment_tx_hash") @db.VarChar(255)
   createdAt      DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
-
-  Agent Agent @relation("ApiContracts", fields: [agentId], references: [id])
+  userId         Int        @map("user_id")
+  agentId        String     @map("agent_id")
+  Agent          Agent      @relation("ApiContracts", fields: [agentId], references: [id])
   User           User       @relation("UserContracts", fields: [userId], references: [id])
   UsageLogs      UsageLog[]
 
@@ -62,13 +57,12 @@ model Contract {
 }
 
 model UsageLog {
-  id          String   @id @default(uuid()) @map("id")
-  contractId  String   @map("contract_id")
-  timestamp   DateTime @default(now()) @map("timestamp") @db.Timestamptz(6)
-  callsUsed   Int      @map("calls_used")
-  usageHash   String   @map("usage_hash") @db.VarChar(255)
-
-  Contract    Contract @relation(fields: [contractId], references: [id])
+  id         String   @id @default(uuid()) @map("id")
+  contractId String   @map("contract_id")
+  timestamp  DateTime @default(now()) @map("timestamp") @db.Timestamptz(6)
+  callsUsed  Int      @map("calls_used")
+  usageHash  String   @map("usage_hash") @db.VarChar(255)
+  Contract   Contract @relation(fields: [contractId], references: [id])
 
   @@map("usage_logs")
 }

@@ -1,6 +1,8 @@
 // src/controllers/agentController.ts
 import { RequestHandler } from 'express';
 import { registerAgentService, getAllAgentsService, getAgentByIdService, updateAgentService, deleteAgentService} from '../services/agentService';
+import { Request, Response } from 'express';
+import { uploadImageToSupabase } from '../services/uploadService';
 
 export const registerAgent: RequestHandler = async (req, res) => {
   const {
@@ -79,5 +81,55 @@ export const deleteAgent: RequestHandler = async (req, res) => {
      res.status(204).send();
   } catch {
      res.status(500).json({ error: 'Erro ao deletar o agente.' });
+  }
+};
+
+export const postAgent = async (req: Request, res: Response) => {
+  try {
+    const {
+      name,
+      description,
+      endpoint,
+      pricePerCall,
+      specialty,
+      useCases,
+    } = req.body;
+
+    const file = req.file; // arquivo enviado via multipart/form-data
+    const creatorEmail = req.user?.sub;
+
+    if (!name || !description || !endpoint || !pricePerCall || !specialty || !creatorEmail) {
+      res.status(400).json({ error: 'Campos obrigatórios ausentes.' });
+    }
+
+    let imageUrl: string | undefined = undefined;
+
+    if (file) {
+      const fileName = `${Date.now()}_${file.originalname}`;
+      const imageBuffer = file.buffer;
+      const contentType = file.mimetype;
+
+      imageUrl = await uploadImageToSupabase(imageBuffer, fileName, contentType);
+    }
+
+    const agent = await registerAgentService(
+      name,
+      description,
+      endpoint,
+      parseFloat(pricePerCall),
+      creatorEmail,
+      specialty,
+      useCases,
+      imageUrl
+    );
+
+    res.status(201).json(agent);
+
+  } catch (error: any) {
+    console.error('[ERRO postAgent]', error);
+    res.status(500).json({
+      error: 'Erro ao registrar o agente.',
+      details: error.message,
+    });
   }
 };
