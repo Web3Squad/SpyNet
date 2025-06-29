@@ -50,3 +50,22 @@ export type Agent = {
     walletAddress: string;
   };
 };
+
+export type ContractWithDetails = {
+  id: string;
+  userId: number;
+  agentId: string;
+  callsPurchased: number;
+  callsRemaining: number;
+  paymentTxHash: string;
+  createdAt: string;
+  Agent: {
+    name: string;
+    description: string;
+    imageUrl: string | null;
+    endpoint: string;
+  };
+  apiKey: {
+    key: string;
+  } | null;
+};

@@ -3,6 +3,7 @@ import React from 'react';
 
 type StatCardProps = {
   title: string;
+  amount: string; // ou outro nome, como 'stat', 'number', etc.
 };
 
 // Componente simples para a barra do gráfico

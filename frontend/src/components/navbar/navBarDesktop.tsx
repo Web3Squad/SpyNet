@@ -10,21 +10,22 @@ type DesktopNavProps = {
 };
 
 export function DesktopNav({ token, user, logout }: DesktopNavProps) {
+  const isCreator = user?.role === "Creator";
+
   return (
     <div className="hidden md:flex items-center justify-end flex-1 gap-8">
       {token && user ? (
         <>
           {/* Links de navegação do usuário */}
-          <Link href="/marketplace" className="text-white hover:text-primary transition-colors font-medium text-[20px]">
-            Marketplace
-          </Link>
+          {!isCreator && (
+            <Link href="/marketplace" className="text-white hover:text-primary transition-colors font-medium text-[20px]">
+              Marketplace
+            </Link>
+          )}
           <Link href="/dashboard" className="text-white hover:text-primary transition-colors font-medium text-[20px]">
             Controller
           </Link>
-          <Link href="/perfil" className="text-white hover:text-primary transition-colors font-medium text-[20px]">
-            Profile
-          </Link>
-
+          
           {/* Divisor Visual */}
           <div className="h-6 w-px bg-white/30" />
 

@@ -1,84 +1,58 @@
-// src/components/features/dashboard/HiredAgentList.tsx
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import React from 'react';
-import { AccessKeyModal } from './modals/AccessKeyModal';
-import { ProofOfWorkModal } from './modals/ProofOfWorkModal';
+"use client";
 
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import type { ContractWithDetails } from "@/types"; // Usaremos um tipo mais detalhado
+import { KeyRound, Server, Zap } from "lucide-react";
 
-// 1. Atualizamos os dados fictícios para incluir a API Key e o histórico
-const hiredAgents = [
-  { 
-    name: 'Legal Analysis Agent', 
-    creator: 'NW Lawyers', 
-    costs: '$ 150.00', 
-    queries: 75,
-    apiKey: '0xC0E3A7...B79CDE83', // Chave fictícia
-    workHistory: [
-        { agentName: 'Legal Analysis Agent', date: '2025-06-28', duration: '1.2s', cost: '$2.00', result: 'Success' },
-        { agentName: 'Legal Analysis Agent', date: '2025-06-27', duration: '1.5s', cost: '$2.00', result: 'Success' },
-    ]
-  },
-  { 
-    name: 'Marketing Copy Agent', 
-    creator: 'RJ Solutions', 
-    costs: '$ 275.00', 
-    queries: 210,
-    apiKey: '0xAB12CD...EFGH5678',
-    workHistory: [
-        { agentName: 'Marketing Copy Agent', date: '2025-06-28', duration: '0.8s', cost: '$1.31', result: 'Success' },
-    ]
-  },
-];
+interface HiredAgentListProps {
+  contracts: ContractWithDetails[];
+}
 
-const HiredAgentList = () => {
+export default function HiredAgentList({ contracts }: HiredAgentListProps) {
+  if (contracts.length === 0) {
+    return (
+      <div className="text-center py-10 border-2 border-dashed border-zinc-800 rounded-lg">
+        <p className="text-neutral-400">Você ainda não contratou nenhum agente.</p>
+      </div>
+    );
+  }
+  
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
-      {/* Table Header */}
-      <div className="grid grid-cols-6 gap-4 px-4 py-2 text-neutral-400 text-sm font-semibold">
-        <div className="col-span-2">Name</div>
-        <div>Creator</div>
-        <div>Costs</div>
-        <div>Queries</div>
-        <div className="col-span-1"></div>
-      </div>
-
-      {/* Table Rows */}
-      <div className="space-y-4 mt-4">
-        {hiredAgents.map((agent) => (
-          <div key={agent.name} className="grid grid-cols-6 gap-4 items-center bg-zinc-800/50 p-4 rounded-lg text-white">
-            <div className="col-span-2 font-medium">{agent.name}</div>
-            <div>{agent.creator}</div>
-            <div>{agent.costs}</div>
-            <div>{agent.queries}</div>
-            <div className="col-span-1 flex justify-end gap-2">
-
-              {/* 2. Botão "Detalhes" agora abre o modal ProofOfWorkModal */}
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button size="sm" variant="secondary" className="bg-zinc-700 hover:bg-zinc-600 rounded-md">Details</Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-4xl bg-zinc-900 border-zinc-800 text-white">
-                  <ProofOfWorkModal proofs={agent.workHistory} />
-                </DialogContent>
-              </Dialog>
-
-              {/* 3. Botão "Chave" agora abre o modal AccessKeyModal */}
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button size="sm" className="bg-primary hover:bg-primary/80 text-primary-foreground rounded-md">Key</Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-md bg-zinc-900 border-zinc-800 text-white">
-                    <AccessKeyModal apiKey={agent.apiKey} />
-                </DialogContent>
-              </Dialog>
-
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {contracts.map(contract => (
+        <Card key={contract.id} className="bg-zinc-900 border-zinc-800 text-white">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-3">
+              <img src={contract.Agent.imageUrl ?? '/img/agents/default.png'} alt={contract.Agent.name} className="w-10 h-10 rounded-full object-cover" />
+              {contract.Agent.name}
+            </CardTitle>
+            <CardDescription className="text-neutral-400">
+              Contratado em {new Date(contract.createdAt).toLocaleDateString()}
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4 text-sm">
+            <div className="flex items-center gap-2">
+              <KeyRound className="h-4 w-4 text-primary" />
+              <span className="text-neutral-300">API Key:</span>
+              <span className="font-mono bg-zinc-800 px-2 py-1 rounded truncate">
+                {contract.apiKey?.key ?? 'Chave não encontrada'}
+              </span>
             </div>
-          </div>
-        ))}
-      </div>
+            <div className="flex items-center gap-2">
+              <Zap className="h-4 w-4 text-primary" />
+              <span className="text-neutral-300">Chamadas Restantes:</span>
+              <span className="font-semibold">
+                {contract.callsRemaining === -1 ? 'Ilimitado' : contract.callsRemaining}
+              </span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Server className="h-4 w-4 text-primary" />
+              <span className="text-neutral-300">Endpoint:</span>
+              <span className="font-mono truncate">{contract.Agent.endpoint}</span>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   );
-};
-
-export default HiredAgentList;
+}
