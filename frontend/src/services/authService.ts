@@ -1,13 +1,7 @@
-// src/services/authService.ts
-import type { LoginCredentials, RegistrationData } from '@/types';
+import type { LoginCredentials, RegistrationData } from '@/types'; // Certifique-se que o caminho para 'types' está correto
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8084';
 
-/**
- * Envia as credenciais para o endpoint de login (/token)
- * @param credentials - Objeto com email e senha
- * @returns A resposta completa do backend (incluindo token e dados do usuário)
- */
 export const loginUser = async (credentials: LoginCredentials): Promise<any> => {
   const formBody = new URLSearchParams();
   formBody.append('username', credentials.email);
@@ -15,23 +9,19 @@ export const loginUser = async (credentials: LoginCredentials): Promise<any> => 
 
   const response = await fetch(`${API_BASE_URL}/token`, {
     method: 'POST',
-    headers: {}, 
+    // 'Content-Type' é definido automaticamente pelo navegador para URLSearchParams
     body: formBody,
   });
 
   if (!response.ok) {
-    const errorData = await response.json();
+    const errorData = await response.json().catch(() => ({ detail: 'Erro desconhecido.' }));
     console.error("Erro do backend ao logar:", errorData);
-    throw new Error('Falha ao fazer login. Verifique as credenciais.');
+    throw new Error(errorData.detail || 'Falha ao fazer login.');
   }
 
   return response.json();
 };
 
-/**
- * Envia os dados de um novo usuário para o endpoint de registro (/registrar)
- * @param userData - Objeto com os dados do usuário para registro
- */
 export const registerUser = async (userData: RegistrationData): Promise<void> => {
   const response = await fetch(`${API_BASE_URL}/registrar`, {
     method: 'POST',
@@ -40,8 +30,10 @@ export const registerUser = async (userData: RegistrationData): Promise<void> =>
   });
 
   if (!response.ok) {
-    const errorData = await response.json();
+    // Tenta pegar o JSON do erro, se não conseguir, usa uma mensagem padrão.
+    const errorData = await response.json().catch(() => ({ detail: 'Erro desconhecido no servidor.' }));
     console.error("Erro do backend ao registrar:", errorData);
-    throw new Error('Falha ao registrar usuário.');
+    // Lança um erro com a mensagem específica vinda do backend (ex: "Email já cadastrado")
+    throw new Error(errorData.detail || 'Falha ao registrar usuário.');
   }
 };

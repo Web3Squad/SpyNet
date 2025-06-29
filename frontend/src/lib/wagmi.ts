@@ -1,31 +1,30 @@
 import { http, createConfig } from 'wagmi';
 import { polygonMumbai } from 'wagmi/chains';
-// ATUALIZADO: Importar conectores específicos
-import { walletConnect, injected, metaMask, coinbaseWallet } from 'wagmi/connectors'; 
+import { walletConnect, injected, metaMask, coinbaseWallet } from 'wagmi/connectors';
 
-const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!;
+const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
+
 if (!projectId) {
-  throw new Error('WalletConnect projectId is not defined. Please check your .env.local file.');
+  throw new Error('A variável de ambiente NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID não está definida.');
 }
 
 const metadata = {
   name: 'SpyAgents',
   description: 'Marketplace de APIs com Pagamentos On-Chain',
-  url: 'https://seusite.com', 
-  icons: ['https://seusite.com/icon.png'], 
+  url: 'https://seusite.com', // Substitua pela URL do seu site
+  icons: ['https://seusite.com/icon.png'], // Substitua pelo ícone do seu site
 };
 
 export const config = createConfig({
   chains: [polygonMumbai],
-  
-  // ATUALIZADO: Adicionados conectores específicos na lista
   connectors: [
     metaMask(),
     coinbaseWallet({ appName: metadata.name }),
     walletConnect({ projectId, metadata, showQrModal: true }),
-    injected(), // Mantenha o injected como um fallback
+    // injected(), // Mantém o 'injected' como um fallback para outras carteiras de navegador
   ],
   transports: {
     [polygonMumbai.id]: http('https://rpc-mumbai.maticvigil.com/'),
   },
+  ssr: true, // Adicionado para melhor suporte a Server-Side Rendering com Next.js
 });

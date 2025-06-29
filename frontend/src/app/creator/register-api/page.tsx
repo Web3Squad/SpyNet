@@ -1,96 +1,186 @@
-"use client";
+"use client"
 
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
+import type React from "react"
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Plus, Rocket } from "lucide-react"
 
-export default function RegisterPage() {
-    const [form, setForm] = useState({
-        nome: "",
-        descricao: "",
-        endpoint: "",
-        preco: ""
-    });
+export default function RegisterAgentPage() {
+    const [formData, setFormData] = useState({
+        name: "",
+        technicalDescription: "",
+        specialty: "",
+        useCases: "",
+        url: "",
+        price: "",
+        image: null as File | null,
+    })
 
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setForm({ ...form, [e.target.name]: e.target.value });
-    };
+    const handleInputChange = (field: string, value: string) => {
+        setFormData((prev) => ({ ...prev, [field]: value }))
+    }
+
+    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0]
+        if (file) {
+            setFormData((prev) => ({ ...prev, image: file }))
+        }
+    }
 
     const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        // Adicione aqui a lógica para enviar os dados
-        console.log(form);
-    };
+        e.preventDefault()
+        console.log("Form data:", formData)
+        // Here you would implement the submit logic
+    }
 
     return (
-        <div className="flex flex-col min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 to-gray-200 p-6 sm:p-12 font-[family-name:var(--font-geist-sans)]">
-            <div className="max-w-xl w-full flex flex-col items-center gap-8 bg-white/80 rounded-xl shadow-lg p-8">
-                <h1 className="text-3xl font-bold text-center text-gray-900 mb-2">
-                    Cadastrar nova API
-                </h1>
-                <p className="text-center text-base text-muted-foreground mb-6">
-                    Preencha os dados abaixo para cadastrar sua API no marketplace.
-                </p>
-                <form onSubmit={handleSubmit} className="w-full flex flex-col gap-5">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Nome
-                        </label>
-                        <input
+        <div className="min-h-screen bg-background">
+            <div className="container mx-auto px-4 py-16 max-w-2xl">
+                {/* Header */}
+                <div className="text mb-12">
+                    <h1 className="text-5xl md:text-5xl font-bold text-white mb-6">Agent Registration</h1>
+                    <p className="text-gray-400 text-xl">
+                        Describe your agent so buyers can easily find it
+                    </p>
+                </div>
+
+                {/* Form */}
+                <form onSubmit={handleSubmit} className="space-y-10">
+                    {/* Agent Name */}
+                    <div className="space-y-3">
+                        <Label htmlFor="name" className="text-white text-2xl font-semibold">
+                            Agent Name
+                        </Label>
+                        <Input
+                            id="name"
                             type="text"
-                            name="nome"
-                            value={form.nome}
-                            onChange={handleChange}
+                            value={formData.name}
+                            onChange={(e) => handleInputChange("name", e.target.value)}
+                            className="!bg-[#1E1E1E] border-zinc-700 text-white placeholder:text-gray-500 h-20 text-2xl rounded-[25px]"
+                            placeholder="Enter your agent's name"
                             required
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Descrição
-                        </label>
-                        <textarea
-                            name="descricao"
-                            value={form.descricao}
-                            onChange={handleChange}
+
+                    {/* Technical Description */}
+                    <div className="space-y-3">
+                        <Label htmlFor="technicalDescription" className="text-white text-2xl font-semibold">
+                            Technical Description
+                        </Label>
+                        <Textarea
+                            id="technicalDescription"
+                            value={formData.technicalDescription}
+                            onChange={(e) => handleInputChange("technicalDescription", e.target.value)}
+                            className="!bg-[#1E1E1E] border-zinc-700 text-white placeholder:text-gray-500 min-h-40 text-2xl rounded-[25px] resize-none"
+                            placeholder="Describe your agent's technical features"
                             required
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Endpoint da API real
-                        </label>
-                        <input
+
+                    {/* Specialty */}
+                    <div className="space-y-3">
+                        <Label htmlFor="specialty" className="text-white text-2xl font-semibold">
+                            Specialty
+                        </Label>
+                        <Textarea
+                            id="specialty"
+                            value={formData.specialty}
+                            onChange={(e) => handleInputChange("specialty", e.target.value)}
+                            className="!bg-[#1E1E1E] border-zinc-700 text-white placeholder:text-gray-500 min-h-32 text-2xl rounded-[25px] resize-none"
+                            placeholder="What is your agent's specialty?"
+                            required
+                        />
+                    </div>
+
+                    {/* Use Cases */}
+                    <div className="space-y-3">
+                        <Label htmlFor="useCases" className="text-white text-2xl font-semibold">
+                            Use Cases
+                        </Label>
+                        <Textarea
+                            id="useCases"
+                            value={formData.useCases}
+                            onChange={(e) => handleInputChange("useCases", e.target.value)}
+                            className="!bg-[#1E1E1E] border-zinc-700 text-white placeholder:text-gray-500 min-h-32 text-2xl rounded-[25px] resize-none"
+                            placeholder="Describe the main use cases"
+                            required
+                        />
+                    </div>
+
+                    {/* Agent URL */}
+                    <div className="space-y-3">
+                        <Label htmlFor="url" className="text-white text-2xl font-semibold">
+                            Agent URL
+                        </Label>
+                        <Input
+                            id="url"
                             type="url"
-                            name="endpoint"
-                            value={form.endpoint}
-                            onChange={handleChange}
+                            value={formData.url}
+                            onChange={(e) => handleInputChange("url", e.target.value)}
+                            className="!bg-[#1E1E1E] border-zinc-700 text-white placeholder:text-gray-500 h-20 text-2xl rounded-[25px] focus:border-primary focus:ring-primary"
+                            placeholder="https://your-agent.com"
                             required
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Preço por chamada
-                        </label>
-                        <input
-                            type="number"
-                            name="preco"
-                            value={form.preco}
-                            onChange={handleChange}
-                            min="0"
-                            step="0.01"
+
+                    {/* Image Upload */}
+                    <div className="space-y-3">
+                        <div className="flex justify-center">
+                            <Label className="text-white text-2xl font-semibold text-center">
+                                Upload an Agent Image
+                            </Label>
+                        </div>
+                        <div className="flex justify-center">
+                            <label htmlFor="image-upload" className="cursor-pointer group">
+                                <div className="w-64 h-64 bg-[#C4C4C4] rounded-3xl flex items-center justify-center hover:bg-gray-700 transition-colors border-2 borderborder-gray-700 group-hover:border-primary">
+                                    {formData.image ? (
+                                        <img
+                                            src={URL.createObjectURL(formData.image)}
+                                            alt="Preview"
+                                            className="w-full h-full object-cover rounded-3xl"
+                                        />
+                                    ) : (
+                                        <Plus className="w-16 h-16 text-gray-600 group-hover:text-gray-500" />
+                                    )}
+                                </div>
+                                <input id="image-upload" type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+                            </label>
+                        </div>
+                    </div>
+
+                    {/* Price */}
+                    <div className="space-y-3">
+                        <Label htmlFor="price" className="text-white text-2xl font-semibold">
+                            How Do You Want to Charge?
+                        </Label>
+                        <p className="text-gray-400 text-base">Enter the price per consultation...</p>
+                        <Input
+                            id="price"
+                            type="text"
+                            value={formData.price}
+                            onChange={(e) => handleInputChange("price", e.target.value)}
+                            className="!bg-[#1E1E1E] border-zinc-700 text-white placeholder:text-gray-500 h-20 text-2xl rounded-[25px] focus:border-primary focus:ring-primary"
+                            placeholder="$0.00"
                             required
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
                     </div>
-                    <Button type="submit" className="w-full max-w-xs text-base py-6 self-center">
-                        Cadastrar
-                    </Button>
+
+                    {/* Register Button */}
+                    <div className="pt-10 flex justify-center">
+                        <Button
+                            type="submit"
+                            variant="outline"
+                            className="w-75 max-w-md h-15 text-2xl !border-primary text-white hover:bg-primary/10 hover:text-primary rounded-[25px] flex items-center justify-center font-bold"
+                        >
+                            <Rocket className="mr-3 h-5 w-5" />
+                            Register Agent
+                        </Button>
+                    </div>
                 </form>
             </div>
         </div>
-    );
+    )
 }
