@@ -3,7 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import agentRoutes from './routes/agentRoutes';
 import contractRoutes from './routes/contractRoutes';
-import 'dotenv/config'; 
+import 'dotenv/config';
+
 
 dotenv.config();
 
