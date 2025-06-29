@@ -103,7 +103,7 @@ async def solicitar_redefinicao_senha(
         )
     reset_token = get_password_reset_token(email=user.email)
     background_tasks.add_task(
-        send_password_reset_email,
+        send_password_reset_email,  
         user.email,
         reset_token
     )
