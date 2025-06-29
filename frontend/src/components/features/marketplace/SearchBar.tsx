@@ -10,8 +10,7 @@ export function SearchBar() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // NO FUTURO: Aqui você vai disparar a busca com IA.
-    // Por exemplo: searchWithAI(query);
+   
     console.log("Searching for:", query);
   };
 
@@ -25,7 +24,7 @@ export function SearchBar() {
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Busque por agentes de marketing, finanças, desenvolvimento..."
+        placeholder="Search for marketing, finance, development agents..."
         className="w-full h-16 pl-12 pr-4 rounded-full bg-zinc-900 border-zinc-700 text-white text-base placeholder:text-neutral-500 focus:border-primary"
       />
     </form>

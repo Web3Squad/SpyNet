@@ -1,6 +1,6 @@
-import type { LoginCredentials, RegistrationData } from '@/types'; // Certifique-se que o caminho para 'types' está correto
+import type { LoginCredentials, RegistrationData } from '@/types';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8084';
+const API_BASE_URL = '/api'; 
 
 export const loginUser = async (credentials: LoginCredentials): Promise<any> => {
   const formBody = new URLSearchParams();
@@ -9,14 +9,13 @@ export const loginUser = async (credentials: LoginCredentials): Promise<any> => 
 
   const response = await fetch(`${API_BASE_URL}/token`, {
     method: 'POST',
-    // 'Content-Type' é definido automaticamente pelo navegador para URLSearchParams
     body: formBody,
   });
 
   if (!response.ok) {
-    const errorData = await response.json().catch(() => ({ detail: 'Erro desconhecido.' }));
-    console.error("Erro do backend ao logar:", errorData);
-    throw new Error(errorData.detail || 'Falha ao fazer login.');
+    const errorData = await response.json().catch(() => ({ detail: 'Unknown error.' }));
+    console.error("Backend error during login:", errorData);
+    throw new Error(errorData.detail || 'Failed to login.');
   }
 
   return response.json();
@@ -30,10 +29,8 @@ export const registerUser = async (userData: RegistrationData): Promise<void> =>
   });
 
   if (!response.ok) {
-    // Tenta pegar o JSON do erro, se não conseguir, usa uma mensagem padrão.
-    const errorData = await response.json().catch(() => ({ detail: 'Erro desconhecido no servidor.' }));
-    console.error("Erro do backend ao registrar:", errorData);
-    // Lança um erro com a mensagem específica vinda do backend (ex: "Email já cadastrado")
-    throw new Error(errorData.detail || 'Falha ao registrar usuário.');
+    const errorData = await response.json().catch(() => ({ detail: 'Unknown server error.' }));
+    console.error("Backend error during registration:", errorData);
+    throw new Error(errorData.detail || 'Failed to register user.');
   }
 };

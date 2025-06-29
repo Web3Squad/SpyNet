@@ -2,109 +2,109 @@
 
 export const mockAgents = [
   { 
-    slug: 'agente-juridico-digital',
-    name: 'Agente Jurídico Digital', 
-    description: 'Verifique contratos em segundos com segurança jurídica garantida.',
+    slug: 'digital-legal-agent',
+    name: 'Digital Legal Agent', 
+    description: 'Check contracts in seconds with guaranteed legal security.',
     imageUrl: "/img/agents/image.png",
     overview: [
-      { label: "CRIADOR", value: "NW Advogados Associados" },
-      { label: "ESPECIALIDADE", value: "Direito Contratual, Análise de Cláusulas" },
-      { label: "DESCRIÇÃO", value: "Este agente utiliza NLP avançado para analisar documentos legais e identificar riscos." },
-      { label: "PREÇO", value: "$0.02 por análise." }
+      { label: "CREATOR", value: "NW Associated Lawyers" },
+      { label: "SPECIALTY", value: "Contract Law, Clause Analysis" },
+      { label: "DESCRIPTION", value: "This agent uses advanced NLP to analyze legal documents and identify risks." },
+      { label: "PRICE", value: "$0.02 per analysis." }
     ],
     useCases: [
-      { title: "CASO 1", description: "Análise de Contratos de Locação." },
-      { title: "CASO 2", description: "Verificação de Termos de Serviço (ToS)." },
-      { title: "CASO 3", description: "Validação de Acordos de Confidencialidade (NDA)." }
+      { title: "CASE 1", description: "Lease Contract Analysis." },
+      { title: "CASE 2", description: "Terms of Service (ToS) Verification." },
+      { title: "CASE 3", description: "Non-Disclosure Agreement (NDA) Validation." }
     ],
     performance: [
       { label: "SCORE", value: "4.9 / 5.0" },
-      { label: "DETALHES", value: "Tempo médio de resposta de 0.8s." },
-      { label: "AVALIAÇÃO", value: "'Uma ferramenta indispensável.' - CEO da Inova." }
+      { label: "DETAILS", value: "Average response time of 0.8s." },
+      { label: "REVIEW", value: "'An indispensable tool.' - CEO of Inova." }
     ]
   },
   { 
-    slug: 'scrum-master-ia',
-    name: 'Scrum Master IA', 
-    description: 'Seu facilitador digital de processos ágeis e produtivos.',
+    slug: 'scrum-master-ai',
+    name: 'Scrum Master AI', 
+    description: 'Your digital facilitator for agile and productive processes.',
     imageUrl: "/img/agents/image.png",
     overview: [
-      { label: "CRIADOR", value: "Agile Solutions" },
-      { label: "ESPECIALIDADE", value: "Gestão Ágil, Scrum, Kanban" },
-      { label: "DESCRIÇÃO", value: "Automatize reuniões diárias, retrospectivas e acompanhamento de sprints." },
-      { label: "PREÇO", value: "$0.01 por sprint." }
+      { label: "CREATOR", value: "Agile Solutions" },
+      { label: "SPECIALTY", value: "Agile Management, Scrum, Kanban" },
+      { label: "DESCRIPTION", value: "Automate daily meetings, retrospectives, and sprint tracking." },
+      { label: "PRICE", value: "$0.01 per sprint." }
     ],
     useCases: [
-      { title: "CASO 1", description: "Facilitação de reuniões diárias." },
-      { title: "CASO 2", description: "Geração automática de relatórios de sprint." }
+      { title: "CASE 1", description: "Facilitation of daily meetings." },
+      { title: "CASE 2", description: "Automatic sprint report generation." }
     ],
     performance: [
       { label: "SCORE", value: "4.7 / 5.0" },
-      { label: "DETALHES", value: "Redução de 30% no tempo de reuniões." },
-      { label: "AVALIAÇÃO", value: "'Transformou nosso time ágil.' - CTO da TechX." }
+      { label: "DETAILS", value: "30% reduction in meeting time." },
+      { label: "REVIEW", value: "'Transformed our agile team.' - CTO of TechX." }
     ],
   },
   { 
-    slug: 'analista-financeiro-virtual',
-    name: 'Analista Financeiro Virtual', 
-    description: 'Análise financeira automatizada para decisões rápidas e seguras.',
+    slug: 'virtual-financial-analyst',
+    name: 'Virtual Financial Analyst', 
+    description: 'Automated financial analysis for fast and secure decisions.',
     imageUrl: "/img/agents/image.png",
     overview: [
-      { label: "CRIADOR", value: "FinTech Labs" },
-      { label: "ESPECIALIDADE", value: "Análise de Risco, Relatórios Financeiros" },
-      { label: "DESCRIÇÃO", value: "Gere relatórios financeiros e avalie riscos de crédito em segundos." },
-      { label: "PREÇO", value: "$0.03 por relatório." }
+      { label: "CREATOR", value: "FinTech Labs" },
+      { label: "SPECIALTY", value: "Risk Analysis, Financial Reports" },
+      { label: "DESCRIPTION", value: "Generate financial reports and assess credit risks in seconds." },
+      { label: "PRICE", value: "$0.03 per report." }
     ],
     useCases: [
-      { title: "CASO 1", description: "Avaliação de crédito para clientes." },
-      { title: "CASO 2", description: "Geração de DRE e balanço patrimonial." }
+      { title: "CASE 1", description: "Credit evaluation for clients." },
+      { title: "CASE 2", description: "Generation of income statement and balance sheet." }
     ],
     performance: [
       { label: "SCORE", value: "4.8 / 5.0" },
-      { label: "DETALHES", value: "Precisão de 98% nas análises." },
-      { label: "AVALIAÇÃO", value: "'Essencial para nosso setor financeiro.' - CFO da MegaCorp." }
+      { label: "DETAILS", value: "98% accuracy in analyses." },
+      { label: "REVIEW", value: "'Essential for our financial sector.' - CFO of MegaCorp." }
     ],
   },
   { 
-    slug: 'assistente-de-marketing-ai',
-    name: 'Assistente de Marketing AI', 
-    description: 'Crie campanhas e analise métricas com inteligência artificial.',
+    slug: 'marketing-assistant-ai',
+    name: 'Marketing Assistant AI', 
+    description: 'Create campaigns and analyze metrics with artificial intelligence.',
     imageUrl: "/img/agents/image.png",
     overview: [
-      { label: "CRIADOR", value: "MarketGenius" },
-      { label: "ESPECIALIDADE", value: "Campanhas Digitais, Análise de Métricas" },
-      { label: "DESCRIÇÃO", value: "Sugestão de campanhas, análise de ROI e otimização de anúncios." },
-      { label: "PREÇO", value: "$0.015 por campanha." }
+      { label: "CREATOR", value: "MarketGenius" },
+      { label: "SPECIALTY", value: "Digital Campaigns, Metrics Analysis" },
+      { label: "DESCRIPTION", value: "Campaign suggestions, ROI analysis, and ad optimization." },
+      { label: "PRICE", value: "$0.015 per campaign." }
     ],
     useCases: [
-      { title: "CASO 1", description: "Criação de campanhas para redes sociais." },
-      { title: "CASO 2", description: "Análise de performance de anúncios." }
+      { title: "CASE 1", description: "Creation of social media campaigns." },
+      { title: "CASE 2", description: "Ad performance analysis." }
     ],
     performance: [
       { label: "SCORE", value: "4.6 / 5.0" },
-      { label: "DETALHES", value: "Aumento médio de 25% no engajamento." },
-      { label: "AVALIAÇÃO", value: "'Nosso marketing nunca foi tão eficiente.' - Gerente de Marketing da StartUpX." }
+      { label: "DETAILS", value: "Average 25% increase in engagement." },
+      { label: "REVIEW", value: "'Our marketing has never been so efficient.' - Marketing Manager at StartUpX." }
     ],
   },
   { 
-    slug: 'engenheiro-de-dados-ai',
-    name: 'Engenheiro de Dados AI', 
-    description: 'Automatize ETL e análise de dados com precisão.',
+    slug: 'data-engineer-ai',
+    name: 'Data Engineer AI', 
+    description: 'Automate ETL and data analysis with precision.',
     imageUrl: "/img/agents/image.png",
     overview: [
-      { label: "CRIADOR", value: "DataFlow Inc." },
-      { label: "ESPECIALIDADE", value: "ETL, Big Data, DataOps" },
-      { label: "DESCRIÇÃO", value: "Pipeline de dados automatizado, limpeza e integração de fontes diversas." },
-      { label: "PREÇO", value: "$0.05 por pipeline." }
+      { label: "CREATOR", value: "DataFlow Inc." },
+      { label: "SPECIALTY", value: "ETL, Big Data, DataOps" },
+      { label: "DESCRIPTION", value: "Automated data pipeline, cleaning, and integration from diverse sources." },
+      { label: "PRICE", value: "$0.05 per pipeline." }
     ],
     useCases: [
-      { title: "CASO 1", description: "Integração de dados de múltiplas fontes." },
-      { title: "CASO 2", description: "Limpeza e preparação de dados para BI." }
+      { title: "CASE 1", description: "Integration of data from multiple sources." },
+      { title: "CASE 2", description: "Data cleaning and preparation for BI." }
     ],
     performance: [
       { label: "SCORE", value: "4.85 / 5.0" },
-      { label: "DETALHES", value: "Redução de 40% no tempo de preparação de dados." },
-      { label: "AVALIAÇÃO", value: "'Facilitou nosso processo de BI.' - Analista de Dados da DataCorp." }
+      { label: "DETAILS", value: "40% reduction in data preparation time." },
+      { label: "REVIEW", value: "'Made our BI process easier.' - Data Analyst at DataCorp." }
     ],
   },
 ];

@@ -44,6 +44,7 @@ export const findAgentById = async (id: string) => {
     where: { id },
     include: {
       Contracts: true,
+      creator: true
     },
   });
 };
