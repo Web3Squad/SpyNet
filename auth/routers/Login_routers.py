@@ -73,7 +73,8 @@ async def login_for_access_token(
         "token_type": "bearer",
         "user_id": user.id,
         "name": user.name,
-        "email": user.email
+        "email": user.email,
+        "role": user.role
     }
 
 @router.get("/usuarios")
@@ -84,7 +85,8 @@ async def listar_usuarios(db: Session = Depends(get_db)):
             "id": u.id,
             "name": u.name,
             "email": u.email,
-            "address": getattr(u, "address", getattr(u, "walletAddress", None))
+            "address": getattr(u, "address", getattr(u, "walletAddress", None)),
+            "role": u.role,
         }
         for u in usuarios
     ]

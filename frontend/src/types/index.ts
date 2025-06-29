@@ -13,6 +13,7 @@ export interface User {
   user_id: number;
   name: string;
   email: string;
+  role: 'Creator' | 'Enterprise' | string;
 }
 
 // Tipo para as credenciais enviadas no login.
@@ -25,8 +26,8 @@ export interface LoginCredentials {
 export interface RegistrationData extends LoginCredentials {
   name: string;
   address: string;
-  role: 'creator' | 'company';
-  company: string; 
+  role: 'Creator' | 'Enterprise';
+  enterprise: string; 
   sector: string; 
-  phone: string; 
+  telephone: string; 
 }
