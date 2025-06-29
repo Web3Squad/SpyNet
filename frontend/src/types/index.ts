@@ -13,6 +13,7 @@ export interface User {
   user_id: number;
   name: string;
   email: string;
+  role: 'Creator' | 'Enterprise' | string;
 }
 
 // Tipo para as credenciais enviadas no login.

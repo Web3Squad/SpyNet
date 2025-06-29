@@ -49,12 +49,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const response = await loginUser(data);
       
       // --- CORREÇÃO APLICADA AQUI ---
-      // Mapeamento ajustado para ler os dados do usuário diretamente da resposta da API,
-      // em vez de esperar por um objeto aninhado "user".
+      // Agora também mapeamos a 'role' vinda da API.
       const userData: User = {
-        user_id: response.user_id ?? '', // Era response.user?.user_id
-        name: response.name ?? '',       // Era response.user?.name
-        email: response.email ?? ''       // Era response.user?.email
+        user_id: response.user_id ?? '',
+        name: response.name ?? '',
+        email: response.email ?? '',
+        role: response.role ?? '' // Capturando a role
       };
 
       handleAuth(response.access_token, userData);
@@ -94,7 +94,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return (
     <AuthContext.Provider value={{ token, user, login, register, logout, isLoading: isRequestLoading }}>
       {isLoading ? (
-        <div className="flex-grow flex items-center justify-center">
+        <div className="flex-grow flex items-center justify-center h-screen">
           <LoadingSpinner />
         </div>
       ) : (
