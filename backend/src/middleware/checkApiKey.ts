@@ -32,18 +32,15 @@ export const apiKeyAuth = async (req: Request, res: Response, next: NextFunction
       return;
     }
 
-    // Decrementa o número de chamadas restantes
     await prisma.contract.update({
       where: { id: contract.id },
       data: { callsRemaining: { decrement: 1 } },
     });
 
-    // Gera um hash de uso (prova)
     const hash = crypto.createHash('sha256')
       .update(`${contract.id}-${Date.now()}-${Math.random()}`)
       .digest('hex');
 
-    // Salva log de uso
     await prisma.usageLog.create({
       data: {
         contractId: contract.id,
@@ -52,7 +49,6 @@ export const apiKeyAuth = async (req: Request, res: Response, next: NextFunction
       },
     });
 
-    // Injeta os dados na requisição
     req.body._contract = contract;
     req.body._usageHash = hash;
 
