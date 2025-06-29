@@ -52,6 +52,7 @@ model Contract {
   Agent          Agent      @relation("ApiContracts", fields: [agentId], references: [id])
   User           User       @relation("UserContracts", fields: [userId], references: [id])
   UsageLogs      UsageLog[]
+  apiKey         ApiKey?    @relation("ContractApiKey")
 
   @@map("contracts")
 }
@@ -65,4 +66,15 @@ model UsageLog {
   Contract   Contract @relation(fields: [contractId], references: [id])
 
   @@map("usage_logs")
+}
+
+model ApiKey {
+  id         String   @id @default(uuid())
+  key        String   @unique @db.VarChar(255)
+  contractId String   @unique
+  createdAt  DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  contract   Contract @relation("ContractApiKey", fields: [contractId], references: [id]) // <- Nomeado igual
+
+  @@map("api_keys")
 }
