@@ -15,6 +15,9 @@ export function DesktopNav({ token, user, logout }: DesktopNavProps) {
       {token && user ? (
         <>
           {/* Links de navegação do usuário */}
+          <Link href="/marketplace" className="text-white hover:text-primary transition-colors font-medium text-[20px]">
+            Marketplace
+          </Link>
           <Link href="/dashboard" className="text-white hover:text-primary transition-colors font-medium text-[20px]">
             Controller
           </Link>

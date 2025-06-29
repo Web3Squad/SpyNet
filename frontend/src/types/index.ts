@@ -31,3 +31,22 @@ export interface RegistrationData extends LoginCredentials {
   sector: string; 
   telephone: string; 
 }
+
+// Este tipo corresponde exatamente à estrutura do JSON que seu backend retorna
+export type Agent = {
+  id: string;
+  name: string;
+  description: string;
+  endpoint: string;
+  pricePerCall: string;
+  createdAt: string;
+  creatorId: number;
+  imageUrl: string | null;
+  specialty: string;
+  useCases: string; // No seu JSON, 'useCases' é uma string única
+  creator: {
+    name: string;
+    email: string;
+    walletAddress: string;
+  };
+};

@@ -48,13 +48,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const response = await loginUser(data);
       
-      // --- CORREÇÃO APLICADA AQUI ---
-      // Agora também mapeamos a 'role' vinda da API.
+      
       const userData: User = {
         user_id: response.user_id ?? '',
         name: response.name ?? '',
         email: response.email ?? '',
-        role: response.role ?? '' // Capturando a role
+        role: response.role ?? '' 
       };
 
       handleAuth(response.access_token, userData);
