@@ -10,7 +10,8 @@ export const registerAgentService = async (
   creatorEmail: string,
   specialty: string,
   useCases: string,
-  imageUrl?: string
+  imageUrl?: string,
+  nftTokenId?: number
 ) => {
   const creator = await findUserByEmail(creatorEmail);
 
@@ -26,7 +27,8 @@ export const registerAgentService = async (
     creator.id,
     specialty,
     useCases,
-    imageUrl
+    imageUrl,
+    nftTokenId
   );
 };
 

@@ -1,8 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+
 import agentRoutes from './routes/agentRoutes';
 import contractRoutes from './routes/contractRoutes';
+import marketplaceRoutes from './routes/marketplaceRoutes'; 
 import proxyRoutes from './routes/proxyRoutes'; // 1. Importar as novas rotas de proxy
 import dashboardRoutes from './routes/dashboardRoutes'; // Importar as rotas do dashboard
 import 'dotenv/config'; 
@@ -19,11 +21,9 @@ app.get('/', (req, res) => {
   res.send('API do Marketplace de Agentes está no ar!');
 });
 
-// Rotas existentes
-app.use('/agent', agentRoutes);     // Rota para listar, registrar agentes, etc.
-app.use('/contracts', contractRoutes); // Rota para criar/listar contratos
-
-// 2. Adicionar a nova rota de proxy
+app.use('/agent', agentRoutes);
+app.use('/contracts', contractRoutes);
+app.use('/marketplace', marketplaceRoutes);
 app.use('/proxy', proxyRoutes);      // Rota para EXECUTAR os agentes
 
 app.use('/dashboard', dashboardRoutes);

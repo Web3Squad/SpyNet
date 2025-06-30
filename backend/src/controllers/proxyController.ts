@@ -51,3 +51,42 @@ export const proxyAgentCall: RequestHandler = async (req: Request, res: Response
     // Não retorne explicitamente o objeto de resposta
   }
 };
+
+export const proxyParaAgente = async (req: Request, res: Response) => {
+  try {
+    const contract = (req as any).contract;
+    const usageHash = (req as any).usageHash;
+
+    if (!contract || !contract.agentId) {
+      return res.status(400).json({ error: 'Contrato ou agente inválido.' });
+    }
+
+    // Busca o endpoint do agente
+    const agente = await prisma.agent.findUnique({
+      where: { id: contract.agentId },
+    });
+
+    if (!agente || !agente.endpoint) {
+      return res.status(404).json({ error: 'Endpoint do agente não encontrado.' });
+    }
+
+    // Faz o forward da requisição original ao endpoint do agente
+    const respostaAgente = await axios.post(agente.endpoint, req.body, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    // Retorna ao cliente a resposta original + hash de prova
+    return res.status(200).json({
+      data: respostaAgente.data,
+      usageHash,
+      agentEndpoint: agente.endpoint,
+      timestamp: new Date().toISOString(),
+    });
+
+  } catch (error: any) {
+    console.error('[ERRO proxyParaAgente]', error.message);
+    return res.status(500).json({ error: 'Erro ao encaminhar requisição ao agente.', details: error.message });
+  }
+};

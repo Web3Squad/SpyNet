@@ -35,6 +35,7 @@ model Agent {
   imageUrl     String?    @map("imageUrl")
   specialty    String     @map("specialty")
   useCases     String     @map("useCases")
+  nftTokenId  Int     @map("nft_token_id")
   creator      User       @relation("UserToAgents", fields: [creatorId], references: [id])
   Contracts    Contract[] @relation("ApiContracts")
 
