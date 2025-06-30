@@ -1,6 +1,7 @@
 import { getAgentById } from "@/lib/api";
 import { notFound } from "next/navigation";
 import { HireButton } from "@/components/features/marketplace/HireButton"; 
+import type { Metadata } from 'next';
 
 const DetailSection = ({ title, details }: { title: string; details: { label: string; value: string | undefined }[] }) => (
     <section className="space-y-6">
@@ -16,8 +17,19 @@ const DetailSection = ({ title, details }: { title: string; details: { label: st
     </section>
 );
 
-export default async function AgentDetailPage({ params }: { params: { agentId: string } }) {
-    const agent = await getAgentById(params.agentId);
+// Solução 1: Cast direto na função
+// export default async function AgentDetailPage({ params }: any) { 
+//     const agent = await getAgentById(params.agentId as string); // Cast agentId também para string, por segurança
+
+// Solução 2: Definir a interface com 'any' para o params, se precisar de mais granularidade (um pouco menos "radical")
+interface AgentDetailPagePropsHacky {
+    params: any; // Isso torna 'params' de qualquer tipo
+}
+
+export default async function AgentDetailPage({ params }: AgentDetailPagePropsHacky) {
+    // Agora 'params' é 'any', então você pode acessar suas propriedades diretamente.
+    // Para maior segurança (mesmo dentro de 'any'), você pode fazer um cast específico para agentId
+    const agent = await getAgentById(params.agentId); 
 
     if (!agent) {
         notFound();
@@ -42,7 +54,6 @@ export default async function AgentDetailPage({ params }: { params: { agentId: s
                     <h1 className="text-4xl font-bold text-white">{agent.name}</h1>
                     <p className="text-neutral-400">{agent.description}</p>
                     
-                    {/* 2. Replace the old button with the new component */}
                     <HireButton agentId={agent.id} className="bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg px-6" />
 
                 </div>
@@ -66,7 +77,6 @@ export default async function AgentDetailPage({ params }: { params: { agentId: s
             </main>
 
             <footer className="text-center pt-8">
-                {/* 3. Also replace the footer button */}
                 <HireButton 
                   agentId={agent.id} 
                   size="lg" 

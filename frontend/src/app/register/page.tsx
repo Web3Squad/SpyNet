@@ -82,7 +82,7 @@ export default function RegisterPage() {
       <div className="hidden lg:flex justify-center items-start">
         <div className="w-full h-full rounded-2xl flex animate-pulse">
         <img
-          src="/img/mao.jpeg"
+          src="/img/home/cogumelo.png"
           alt="Register Illustration"
           className="w-full h-full object-cover rounded-2xl"
           style={{ maxHeight: "700px", height: "100%" }}

@@ -45,7 +45,6 @@ export default function HiredAgentList({ contracts }: HiredAgentListProps) {
             <div className="md:text-left"><span className="md:hidden font-semibold">Costs: </span>${contract.cost}</div>
             <div className="md:text-left"><span className="md:hidden font-semibold">Queries: </span>{contract.queries}</div>
             <div className="col-span-1 flex justify-end gap-2">
-              <Button size="sm" variant="secondary" className="bg-zinc-700 hover:bg-zinc-600 rounded-md">Details</Button>
               <Button size="sm" variant="secondary" className="bg-primary hover:bg-primary/90 rounded-md" onClick={() => copyToClipboard(contract.apiKey)}>Key</Button>
             </div>
           </div>

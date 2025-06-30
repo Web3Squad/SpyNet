@@ -28,13 +28,13 @@ export function SuccessModal({ isOpen, onClose, apiKey }: SuccessModalProps) {
   const handleCopy = () => {
     navigator.clipboard.writeText(apiKey);
     setHasCopied(true);
-    toast.success("Chave de API copiada para a área de transferência!");
-    setTimeout(() => setHasCopied(false), 2000); // Reseta o ícone após 2 segundos
+    toast.success("API key copied to clipboard!");
+    setTimeout(() => setHasCopied(false), 2000); // Reset icon after 2 seconds
   };
 
   const goToDashboard = () => {
-    // O erro 404 era porque a rota /dashboard/contracts não existe.
-    // A rota correta para o dashboard da empresa é /company-dashboard.
+    // The 404 error was because the /dashboard/contracts route does not exist.
+    // The correct route for the company dashboard is /company-dashboard.
     router.push('/company-dashboard');
     onClose();
   };
@@ -43,9 +43,9 @@ export function SuccessModal({ isOpen, onClose, apiKey }: SuccessModalProps) {
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-md bg-zinc-900 border-zinc-800 text-white">
         <DialogHeader>
-          <DialogTitle className="text-2xl">Agente Contratado com Sucesso!</DialogTitle>
+          <DialogTitle className="text-2xl">Agent Successfully Hired!</DialogTitle>
           <DialogDescription className="text-neutral-400">
-            Sua chave de API foi gerada. Guarde-a em local seguro, pois ela não será exibida novamente.
+            Your API key has been generated. Keep it in a safe place, as it will not be shown again.
           </DialogDescription>
         </DialogHeader>
         <div className="flex items-center space-x-2 mt-4">
@@ -56,7 +56,7 @@ export function SuccessModal({ isOpen, onClose, apiKey }: SuccessModalProps) {
         </div>
         <DialogFooter className="mt-6">
           <Button type="button" onClick={goToDashboard} className="w-full">
-            Ir para o Dashboard
+            Go to Dashboard
           </Button>
         </DialogFooter>
       </DialogContent>

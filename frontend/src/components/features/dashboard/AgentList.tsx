@@ -36,8 +36,6 @@ export default function AgentList({ agents }: AgentListProps) {
               </span>
             </div>
             <div className="col-span-1 flex justify-end gap-2">
-              <Button size="sm" variant="secondary" className="bg-zinc-700 hover:bg-zinc-600 rounded-md">Details</Button>
-              <Button size="sm" variant="secondary" className="bg-zinc-700 hover:bg-zinc-600 rounded-md">Edit</Button>
             </div>
           </div>
         ))}

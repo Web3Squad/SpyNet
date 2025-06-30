@@ -5,27 +5,26 @@ import { SearchResultCard } from "@/components/features/marketplace/SearchResult
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export default async function MarketplacePage({
-    searchParams
-}: {
-    searchParams?: { query?: string }
-}) {
 
-    const query = searchParams?.query;
-    interface Agent {
-        id: string;
-        name: string;
-        description: string;
-        imageUrl: string;
-    }
+interface Agent {
+    id: string;
+    name: string;
+    description: string;
+    imageUrl: string;
+}
 
-    interface SearchResult {
-        id: string;
-        name: string;
-        description: string;
-        imageUrl: string;
-        score: number;
-    }
+interface SearchResult {
+    id: string;
+    name: string;
+    description: string;
+    imageUrl: string;
+    score: number;
+}
+
+// A mudança "radical" está aqui: defina as props como 'any'
+export default async function MarketplacePage(props: any) { // <-- MUDANÇA AQUI
+    // Acesse searchParams através de props.searchParams
+    const query = props.searchParams?.query; 
 
     let agents: Agent[] = [];
     let searchResult = null;

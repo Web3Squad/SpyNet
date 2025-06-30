@@ -28,7 +28,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(JSON.parse(storedUserJSON));
       }
     } catch (error) {
-      console.error("Falha ao carregar dados de autenticação do localStorage", error);
+      console.error("Failed to load authentication data from localStorage", error);
       localStorage.removeItem('authToken');
       localStorage.removeItem('authUser');
     } finally {
@@ -48,7 +48,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const response = await loginUser(data);
       
-      
       const userData: User = {
         user_id: response.user_id ?? '',
         name: response.name ?? '',
@@ -57,11 +56,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       };
 
       handleAuth(response.access_token, userData);
-      toast.success("Login realizado com sucesso!");
+      toast.success("Login successful!");
       router.push('/dashboard');
     } catch (error) {
       console.error(error);
-      toast.error("Falha no login. Verifique suas credenciais.");
+      toast.error("Login failed. Please check your credentials.");
     } finally {
       setIsRequestLoading(false); 
     }
@@ -71,11 +70,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsRequestLoading(true);
     try {
       await registerUser(data); 
-      toast.success("Cadastro realizado! Faça seu login.");
+      toast.success("Registration successful! Please log in.");
       router.push('/login?registered=true');
     } catch (error: any) {
       console.error(error);
-      toast.error(error.message || "Falha no cadastro. Verifique os dados.");
+      toast.error(error.message || "Registration failed. Please check your data.");
     } finally {
       setIsRequestLoading(false);
     }
@@ -106,7 +105,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth deve ser usado dentro de um AuthProvider');
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 };

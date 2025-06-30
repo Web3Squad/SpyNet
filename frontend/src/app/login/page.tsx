@@ -128,7 +128,7 @@ export default function LoginPage() {
           <div className="w-full h-[750px] bg-zinc-800 rounded-2xl animate-pulse">
             {/* You can put a Next.js <Image/> here */}
             <img
-              src="/img/dashboard/image.png"
+              src="/img/home/cao.png"
               alt="Login Illustration"
               className="w-full h-full object-cover rounded-2xl"
             />
