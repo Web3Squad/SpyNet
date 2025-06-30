@@ -11,9 +11,17 @@ export const apiKeyAuth = async (req: Request, res: Response, next: NextFunction
       return;
     }
 
+    // --- CORREÇÃO APLICADA AQUI ---
+    // Modificamos a consulta para incluir o Agente relacionado ao Contrato
     const keyRecord = await prisma.apiKey.findUnique({
       where: { key: apiKey },
-      include: { contract: true },
+      include: {
+        contract: {          // Inclui o contrato
+          include: {
+            Agent: true      // E DENTRO do contrato, inclui o Agente
+          }
+        }
+      },
     });
 
     if (!keyRecord) {
@@ -26,24 +34,26 @@ export const apiKeyAuth = async (req: Request, res: Response, next: NextFunction
       res.status(403).json({ error: 'Contrato associado não encontrado.' });
       return;
     }
+    
+    // Agora 'contract.Agent' estará disponível
 
-    if (contract.callsRemaining <= 0) {
-      res.status(402).json({ error: 'Créditos esgotados. Renove o contrato.' });
-      return;
+    if (contract.callsRemaining > 0 || contract.callsRemaining === -1) { // Permite chamadas ilimitadas (-1)
+        if (contract.callsRemaining !== -1) {
+            // Decrementa o número de chamadas restantes apenas se não for ilimitado
+            await prisma.contract.update({
+                where: { id: contract.id },
+                data: { callsRemaining: { decrement: 1 } },
+            });
+        }
+    } else {
+        res.status(402).json({ error: 'Créditos esgotados. Renove o contrato.' });
+        return;
     }
 
-    // Decrementa o número de chamadas restantes
-    await prisma.contract.update({
-      where: { id: contract.id },
-      data: { callsRemaining: { decrement: 1 } },
-    });
-
-    // Gera um hash de uso (prova)
     const hash = crypto.createHash('sha256')
       .update(`${contract.id}-${Date.now()}-${Math.random()}`)
       .digest('hex');
 
-    // Salva log de uso
     await prisma.usageLog.create({
       data: {
         contractId: contract.id,
@@ -52,10 +62,9 @@ export const apiKeyAuth = async (req: Request, res: Response, next: NextFunction
       },
     });
 
-    // Injeta os dados na requisição
+    // Injeta o contrato completo (com dados do Agent) na requisição
     (req as any).contract = contract;
     (req as any).usageHash = hash;
-
 
     next();
   } catch (error: any) {

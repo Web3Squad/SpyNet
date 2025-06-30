@@ -9,7 +9,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {/* Logo and Description */}
           <div className="space-y-4">
-            <h4 className="text-2xl font-bold text-white">LOGO</h4>
+            
             <p className="text-gray-400">Find, Create and Monetize AI Agents</p>
             <div className="text-gray-500 text-sm">Social Media</div>
             <div className="flex gap-4">

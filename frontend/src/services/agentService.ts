@@ -33,7 +33,6 @@ export const registerAgent = async (data: AgentRegistrationData, token: string):
   const response = await fetch(`${API_BASE_URL}/agent/register`, {
     method: 'POST',
     headers: {
-      
       'Authorization': `Bearer ${token}`,
     },
     body: formData, 

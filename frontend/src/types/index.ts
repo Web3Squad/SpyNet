@@ -90,3 +90,49 @@ export interface SearchResult {
     imageUrl: string;
     score: number;
 }
+
+export interface BuyerDashboardData {
+  summary: {
+    accumulatedCosts: string;
+    totalQueries: number;
+    availableBalance: string;
+  };
+  hiredAgents: HiredAgent[];
+}
+
+export interface HiredAgent {
+  id: string;
+  agentName: string;
+  creatorName: string;
+  cost: string;
+  queries: number;
+  apiKey: string;
+  proofOfWork: any[]; 
+}
+
+export interface ChartDataPoint {
+  month: string;
+  value: number;
+}
+
+export interface CreatorDashboardData {
+  summary: {
+    accumulatedRevenue: string;
+    totalQueries: number;
+    averageScore: number;
+  };
+  myAgents: MyAgent[];
+  // Nova propriedade com os dados para os gráficos
+  chartData: {
+    revenue: ChartDataPoint[];
+    queries: ChartDataPoint[];
+    score: ChartDataPoint[];
+  };
+}
+export interface MyAgent {
+  id: string;
+  name: string;
+  specialty: string;
+  status: string;
+  score: number;
+}
