@@ -121,9 +121,7 @@ export const postAgent: RequestHandler = async (req: Request, res: Response) => 
       res.status(400).json({ error: 'Campos obrigatórios ausentes.' });
     }
 
-    // ✅ Inicializa parsedPrice para evitar erro TS2454
     let parsedPrice: string = '';
-
     if (typeof pricePerCall === 'object' && pricePerCall !== null) {
       if ('value' in pricePerCall && (typeof pricePerCall.value === 'string' || typeof pricePerCall.value === 'number')) {
         parsedPrice = pricePerCall.value.toString();
@@ -144,6 +142,8 @@ export const postAgent: RequestHandler = async (req: Request, res: Response) => 
       imageUrl = await uploadImageToSupabase(imageBuffer, fileName, contentType);
     }
 
+    // --- LÓGICA DE BLOCKCHAIN ---
+
     const provider = new ethers.JsonRpcProvider(process.env.RPC_URL);
     const signer = new ethers.Wallet(process.env.PLATFORM_PRIVATE_KEY!, provider);
 
@@ -159,12 +159,26 @@ export const postAgent: RequestHandler = async (req: Request, res: Response) => 
       throw new Error("A transação de Mint não foi confirmada a tempo.");
     }
 
-    const transferEvent = mintReceipt.logs.find((log: any) => log.eventName === 'Transfer') as Log | undefined;
-    if (!transferEvent || !('args' in transferEvent)) {
+    // ✅ Decodificação robusta do evento Transfer
+    let tokenId: string | undefined;
+    for (const log of mintReceipt.logs) {
+      try {
+        if (log.address.toLowerCase() !== nftContract.target.toLowerCase()) continue;
+        const parsedLog = nftContract.interface.parseLog(log);
+        if (parsedLog.name === 'Transfer') {
+          tokenId = parsedLog.args.tokenId.toString();
+          break;
+        }
+      } catch {
+        // Ignora logs que não pertencem ao contrato
+        continue;
+      }
+    }
+
+    if (!tokenId) {
       throw new Error("Não foi possível encontrar o evento de Transferência para obter o tokenId.");
     }
 
-    const tokenId = (transferEvent as any).args.tokenId.toString();
     console.log(`- NFT ${tokenId} mintado com sucesso.`);
 
     const priceInWei = ethers.parseUnits(parsedPrice, 18);
