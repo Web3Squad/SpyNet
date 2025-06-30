@@ -256,3 +256,14 @@ npx hardhat test
 npx hardhat run scripts/deploy.js
 ```
 ---
+Diagrams - Architecture
+
+![Architecture](https://github.com/Web3Squad/SpyNet/blob/docs/update-readme/images/image-1.png)
+
+Diagrams - Sequence Diagram
+
+![Sequence](https://github.com/Web3Squad/SpyNet/blob/docs/update-readme/images/image-2.png)
+
+Diagrams - Database Modeling
+
+![Modeling](https://github.com/Web3Squad/SpyNet/blob/docs/update-readme/images/image-3.png)
