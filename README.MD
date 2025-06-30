@@ -2,7 +2,7 @@
 
 #### Complete Documentation:
 
-> [Complete Documentation - SpyNet](https://spynet.gitbook.io/spynet-docs/exploratory-analysis/multi-agent-systems-market)
+> [Complete Documentation - SpyNet](https://spynet.gitbook.io/spynet-docs)
 
 #### Technical Documentation:
 
