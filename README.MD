@@ -74,3 +74,23 @@ What it Solves for Agent Buyers:
 - Pay only for actual use, without complex subscriptions: The "pay-for-contribution" model and micro-payments allow buyers to pay exactly for what they use, eliminating the need for expensive subscriptions or large upfront payments.
 
 - Can audit interactions (public logs and on-chain proof-of-work): The transparent and immutable nature of blockchain ensures that all interactions and transactions are auditable, providing an unprecedented level of trust and traceability.
+
+## Smart Contracts Links
+
+NET Token deployed at (Avalanche Fuji):
+https://subnets-test.avax.network/c-chain/address/0x36F027F6A4B392fC261320d03103F1f12dF83E61
+
+NFT APIKey deployed at (Avalanche Fuji):
+https://subnets-test.avax.network/c-chain/address/0x49B63063e4DF8fb87BC292606E2b12d4660346d9
+
+Marketplace deployed at (Avalanche Fuji):
+https://subnets-test.avax.network/c-chain/address/0x91955FA3f013DF2551AD8441002e67A1E7fD3928
+
+NetSale deployed at (Avalanche Fuji):
+https://subnets-test.avax.network/c-chain/address/0xa2961Ca8120F2E46B7a3b740822EEE860bF15753
+
+Token Factory deployed at (Avalanche Fuji):
+https://subnets-test.avax.network/c-chain/address/0xdc382985A86fB4F270E2F23515057bBBF429d6C3
+
+NetSaleCCIPSender deployed at (Ethereum Sepolia):
+https://sepolia.etherscan.io/address/0xf9Dd3088537A01949E3cDa09CEFc6c4E79dC1a90#code
