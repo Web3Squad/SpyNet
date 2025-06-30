@@ -9,7 +9,8 @@ export const createAgent = async (
   creatorId: number,
   specialty: string,
   useCases: string,
-  imageUrl?: string
+  imageUrl?: string,
+  nftTokenId?: number
 ) => {
   return prisma.agent.create({
     data: {
@@ -21,6 +22,7 @@ export const createAgent = async (
       specialty,    
       useCases,
       imageUrl,
+      nftTokenId
     },
   });
 };
