@@ -1,8 +1,12 @@
 # SpyNet
 
-# Abstract
+> [Complete Documentation - SpyNet](https://spynet.gitbook.io/spynet-docs/exploratory-analysis/multi-agent-systems-market)
+
+## Abstract
 
 The emergence of a multi-agent AI economy, where autonomous artificial intelligence entities collaborate and transact, demands a fundamental redefinition of payment infrastructure. Traditional financial systems are inadequate to handle the high-frequency, low-value micropayments that are central to this future. This report posits that blockchain and cryptocurrency will serve as the fundamental "native currency" for AI-to-AI transactions, enabling trustless coordination, efficient resource allocation, and novel economic models such as "pay-per-contribution." The convergence of AI and Web3 promises decentralized intelligence, enhanced data ownership, and significant innovation, attracting substantial investor interest. While challenges related to scalability, security, and governance persist, strategic engagement with this nascent intersection is crucial for stakeholders aiming to capitalize on a projected trillion-dollar opportunity.
+
+![Home](https://github.com/Web3Squad/SpyNet/blob/docs/update-readme/images/home.png)
 
 ## Target Audience
 SpyNet serves two distinct yet interconnected target audiences crucial for the flourishing AI agent economy. Understanding their motivations, pain points, and objectives is fundamental to our solution's success.
@@ -14,6 +18,8 @@ SpyNet serves two distinct yet interconnected target audiences crucial for the f
 ## What's Happening in the Market?
 
 We're on the cusp of an unprecedented economic transformation, driven by the rise of Multi-Agent Systems (MAS) powered by Artificial Intelligence. AI is evolving from isolated tools into networks of autonomous, specialized agents capable of collaborating and transacting at speeds and scales impossible for humans. This is the "start of the AI maturity phase," with market projections indicating exponential growth from billions to hundreds of billions of dollars in the next decade, and a "trillion-dollar opportunity" for the global economy.
+
+![Market](https://github.com/Web3Squad/SpyNet/blob/docs/update-readme/images/multiagente.png)
 
 However, despite this colossal potential, the AI agent ecosystem is still nascent and faces significant bottlenecks hindering its full realization:
 
