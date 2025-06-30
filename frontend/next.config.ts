@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'http://localhost:8084/:path*',
+        destination: 'https://spynet-5ifn.onrender.com/:path*',
       },
     ]
   },
