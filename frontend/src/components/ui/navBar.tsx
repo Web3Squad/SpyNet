@@ -19,7 +19,7 @@ export function Navbar() {
       <nav className="container mx-auto h-20 flex items-center justify-between px-4 md:px-6">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <span className="text-2xl font-bold text-white">LOGO</span>
+          <img src="/image.png" alt="SpyNet Logo" className="h-15 w-auto" />
         </Link>
 
         {/* Navegação Desktop agora é um componente separado */}

@@ -1,62 +1,54 @@
-// src/controllers/proxyController.ts
-import { Request, Response } from 'express';
-import prisma from '../config/db';
+import { Request, RequestHandler, Response } from 'express';
 import axios from 'axios';
-import { generateProofOfWork } from '../utils/generateProofOfWork';
 
-export const proxyAgentCall = async (req: Request, res: Response) => {
-  try {
-    const contract = req.body._contract;
-    const usageHash = req.body._usageHash;
+/**
+ * Atua como um proxy para o endpoint real do agente.
+ * Esta função é chamada DEPOIS que o middleware `apiKeyAuth` validou a chave
+ * e debitou um crédito do contrato.
+ */
+export const proxyAgentCall: RequestHandler = async (req: Request, res: Response): Promise<void> => {
+  // 1. O middleware 'apiKeyAuth' já injetou o contrato na requisição
+  const contract = (req as any).contract;
 
-    if (!contract || !contract.Agent || !contract.Agent.endpoint) {
-      return res.status(400).json({ error: 'Contrato ou agente mal definido.' });
-    }
-
-    const agentResponse = await axios.post(contract.Agent.endpoint, req.body);
-
-    await prisma.usageLog.create({
-      data: {
-        contractId: contract.id,
-        callsUsed: 1,
-        usageHash,
-        timestamp: new Date(),
-      },
+  // 2. Validação: Verificamos se o contrato e o endpoint do agente existem
+  if (!contract?.Agent?.endpoint) {
+    res.status(400).json({ 
+      error: 'Endpoint do agente não encontrado ou contrato inválido.' 
     });
-
-    res.status(200).json({
-      result: agentResponse.data,
-      contractId: contract.id,
-      proofOfWork: usageHash,
-    });
-
-  } catch (error) {
-    console.error('[ERRO NO PROXY]', error);
-    res.status(500).json({ error: 'Erro interno no proxy.' });
+    return;
   }
-};
 
-export const monitorarUsoDaAPI = async (req: Request, res: Response) => {
+  const agentEndpoint = contract.Agent.endpoint;
+
+  // O corpo da requisição (req.body) contém os dados que o usuário final
+  // quer enviar para o agente de IA (ex: { "prompt": "some text" }).
+  // Vamos encaminhar este corpo diretamente.
+  const payload = req.body;
+  
+  console.log(`[PROXY] Encaminhando chamada para: ${agentEndpoint}`);
+
   try {
-    const contract = (req as any).contract;
-    const usageHash = (req as any).usageHash;
-
-    if (!contract || !usageHash) {
-      res.status(401).json({ error: 'Contrato não encontrado no contexto da requisição.' });
-    }
-
-     res.status(200).json({
-      message: 'Cobrança registrada com sucesso.',
-      contractId: contract.id,
-      userId: contract.userId,
-      agentId: contract.agentId,
-      usageHash,
-      timestamp: new Date().toISOString(),
+    // 3. Faz a chamada real para o endpoint do agente usando axios
+    const agentResponse = await axios.post(agentEndpoint, payload, {
+      // Opcional: encaminhar alguns headers, se necessário. Para a maioria dos casos, não é preciso.
+      // headers: { 'Content-Type': 'application/json' }
     });
+
+    // 4. Retorna a RESPOSTA REAL do agente para o usuário final
+    // O status e os dados da resposta do agente são repassados integralmente.
+    res.status(agentResponse.status).json(agentResponse.data);
+    // Não retorne explicitamente o objeto de resposta
 
   } catch (error: any) {
-    console.error('[ERRO monitorarUsoDaAPI]', error);
-    res.status(500).json({ error: 'Erro ao monitorar o uso da API.', details: error.message });
+    console.error(`[ERRO NO PROXY] Falha ao chamar ${agentEndpoint}:`, error.message);
+    
+    // Se a chamada para o agente falhar, retornamos um erro claro.
+    // É importante retornar o status do erro do agente, se disponível.
+    res.status(error.response?.status || 500).json({ 
+      error: 'O agente de destino retornou um erro ou está indisponível.',
+      details: error.response?.data || 'Não foi possível completar a chamada.'
+    });
+    // Não retorne explicitamente o objeto de resposta
   }
 };
 

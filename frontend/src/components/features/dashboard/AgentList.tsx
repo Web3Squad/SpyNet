@@ -1,31 +1,33 @@
-// src/components/features/dashboard/AgentList.tsx
+"use client";
+
 import { Button } from '@/components/ui/button';
-import React from 'react';
+import type { MyAgent } from '@/types'; // Usar o tipo para 'meus agentes'
 
-// Dados fictícios para a lista de agentes
-const agents = [
-  { name: 'Agente de Análise de Crédito', specialty: 'Finanças', status: 'Ativo', score: 4.8 },
-  { name: 'Assistente de Viagens IA', specialty: 'Turismo', status: 'Ativo', score: 4.9 },
-  { name: 'Consultor Jurídico Automatizado', specialty: 'Direito', status: 'Inativo', score: 4.5 },
-  { name: 'Personal Trainer Virtual', specialty: 'Saúde', status: 'Ativo', score: 4.7 },
-];
+interface AgentListProps {
+  agents: MyAgent[];
+}
 
-const AgentList = () => {
+export default function AgentList({ agents }: AgentListProps) {
+  if (agents.length === 0) {
+     return (
+      <div className="text-center py-10 border-2 border-dashed border-zinc-800 rounded-lg">
+        <p className="text-neutral-400">You haven't created any agents yet.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
-      {/* Cabeçalho da Tabela */}
-      <div className="grid grid-cols-6 gap-4 px-4 py-2 text-neutral-400 text-sm font-semibold">
-        <div className="col-span-2">Nome</div>
-        <div>Especialidade</div>
+      <div className="hidden md:grid grid-cols-5 gap-4 px-4 py-2 text-neutral-400 text-sm font-semibold">
+        <div className="col-span-2">Name</div>
+        <div>Specialty</div>
         <div>Status</div>
-        <div>Score</div>
-        <div className="col-span-1"></div> {/* Espaço para os botões */}
+        <div className="text-right">Actions</div>
       </div>
 
-      {/* Linhas da Tabela */}
       <div className="space-y-4 mt-4">
-        {agents.map((agent, index) => (
-          <div key={index} className="grid grid-cols-6 gap-4 items-center bg-zinc-800/50 p-4 rounded-lg text-white">
+        {agents.map((agent) => (
+          <div key={agent.id} className="grid grid-cols-1 md:grid-cols-5 gap-4 items-center bg-zinc-800/50 p-4 rounded-lg text-white">
             <div className="col-span-2 font-medium">{agent.name}</div>
             <div>{agent.specialty}</div>
             <div>
@@ -33,10 +35,9 @@ const AgentList = () => {
                 {agent.status}
               </span>
             </div>
-            <div>{agent.score}</div>
             <div className="col-span-1 flex justify-end gap-2">
-              <Button size="sm" variant="secondary" className="bg-zinc-700 hover:bg-zinc-600 rounded-md">Detalhes</Button>
-              <Button size="sm" variant="secondary" className="bg-zinc-700 hover:bg-zinc-600 rounded-md">Editar</Button>
+              <Button size="sm" variant="secondary" className="bg-zinc-700 hover:bg-zinc-600 rounded-md">Details</Button>
+              <Button size="sm" variant="secondary" className="bg-zinc-700 hover:bg-zinc-600 rounded-md">Edit</Button>
             </div>
           </div>
         ))}
@@ -44,5 +45,3 @@ const AgentList = () => {
     </div>
   );
 };
-
-export default AgentList;

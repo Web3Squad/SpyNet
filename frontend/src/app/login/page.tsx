@@ -70,11 +70,6 @@ function LoginForm() {
           />
         </div>
 
-        <div className="text-right">
-          <Link href="/forgot-password" className="text-md text-muted-foreground hover:text-white transition-colors">
-            Forgot password?
-          </Link>
-        </div>
 
         {/* Action Buttons */}
         <div className="flex flex-col gap-4 pt-6 items-center justify-center">
